@@ -18,9 +18,7 @@ const getAddressListService = async () => {
 
 // 获取代币的详情
 const getCoinDetailService = async (coinAddress) => {
-  const res = await axiosInstance.get(
-    `https://pump.mypinata.cloud/ipfs/${coinAddress}`
-  );
+  const res = await axiosInstance.get(` https://pump.fun/coin/${coinAddress}`);
   const data = res.data;
   return data;
 };
