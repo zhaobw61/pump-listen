@@ -13,13 +13,13 @@ async function getAddressList() {
       const checkRes = await getPairService({
         address: item.coinMint,
       });
-      console.log('checkRes', checkRes);
       if (checkRes === null) {
         const detailData = await getCoinDetailService(item.coinMint);
         const cleanedText = detailData.replace(/\\[nt"\\]/g, '');
         const regex = /twitter:https:\/\/x\.com\/[a-zA-Z0-9_]+/;
         const matchRes = cleanedText.match(regex);
         if (matchRes) {
+          console.log('find new');
           const addRes = await addPairService({
             address: item.coinMint,
             ticker: item.ticker,
@@ -34,4 +34,7 @@ async function getAddressList() {
   console.log('end');
 }
 
+setInterval(() => {
+  getAddressList();
+}, 1000 * 60 * 5);
 getAddressList();
