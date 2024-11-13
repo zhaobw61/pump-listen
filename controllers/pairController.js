@@ -1,6 +1,7 @@
 import {
   getPairListService,
   updatePairService,
+  deletePairService,
 } from '../services/newPairService.js';
 
 export const apiGetPairList = async (req, res) => {
@@ -10,10 +11,16 @@ export const apiGetPairList = async (req, res) => {
 };
 
 export const apiPostUpdatePair = async (req, res) => {
-  console.log('apiPostUpdatePair', req.body);
   const { address } = req.body;
   updatePairService(address, {
     ...req.body,
   });
+  res.status(200).json({ success: true });
+};
+
+export const apiDeletePair = async (req, res) => {
+  const { address } = req.body;
+  const data = await deletePairService(address);
+  console.log(data);
   res.status(200).json({ success: true });
 };
