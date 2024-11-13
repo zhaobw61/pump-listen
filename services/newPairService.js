@@ -19,9 +19,18 @@ const getPairService = async (params) => {
 };
 
 // 查询所有交易对
-const getPairListService = async () => {
-  const list = await pair.find();
-  return list;
+const getPairListService = async (params) => {
+  const { pageIndex = 1, pageSize = 10 } = params;
+  const totalCount = await pair.countDocuments();
+  const list = await pair
+    .find()
+    .skip((pageIndex - 1) * pageSize)
+    .limit(pageSize)
+    .exec();
+  return {
+    totalCount,
+    list,
+  };
 };
 
 // 删除交易对
