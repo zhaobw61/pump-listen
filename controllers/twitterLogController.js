@@ -15,36 +15,46 @@ export const getAddressHot = async (req, res) => {
   logList.forEach((item) => {
     let hotItem = {};
     let { tweetList, lastTweetList, topTweetList } = item.logInfo;
-    hotItem['lastScore'] = tweetList
-      .map((logItem) => {
-        return (
-          logItem.reply_count * 0.15 +
-          logItem.favorite_count * 0.1 +
-          Number(logItem.view_count) * 0.1 +
-          logItem.retweet_count * 0.2
-        );
-      })
-      .reduce((acc, curr) => acc + curr, 0);
-    hotItem['topScore'] = topTweetList
-      .map((logItem) => {
-        return (
-          logItem.reply_count * 0.15 +
-          logItem.favorite_count * 0.1 +
-          Number(logItem.view_count) * 0.1 +
-          logItem.retweet_count * 0.2
-        );
-      })
-      .reduce((acc, curr) => acc + curr, 0);
-    hotItem['caTwitterScore'] = lastTweetList
-      .map((logItem) => {
-        return (
-          logItem.reply_count * 0.15 +
-          logItem.favorite_count * 0.1 +
-          Number(logItem.view_count) * 0.1 +
-          logItem.retweet_count * 0.2
-        );
-      })
-      .reduce((acc, curr) => acc + curr, 0);
+    console.log('tweetList', tweetList);
+    hotItem['lastScore'] =
+      tweetList == 'UserNotFound'
+        ? 0
+        : tweetList
+            .map((logItem) => {
+              return (
+                logItem.reply_count * 0.15 +
+                logItem.favorite_count * 0.1 +
+                Number(logItem.view_count) * 0.1 +
+                logItem.retweet_count * 0.2
+              );
+            })
+            .reduce((acc, curr) => acc + curr, 0);
+    hotItem['topScore'] =
+      topTweetList == 'UserNotFound'
+        ? 0
+        : topTweetList
+            .map((logItem) => {
+              return (
+                logItem.reply_count * 0.15 +
+                logItem.favorite_count * 0.1 +
+                Number(logItem.view_count) * 0.1 +
+                logItem.retweet_count * 0.2
+              );
+            })
+            .reduce((acc, curr) => acc + curr, 0);
+    hotItem['caTwitterScore'] =
+      lastTweetList == 'UserNotFound'
+        ? 0
+        : lastTweetList
+            .map((logItem) => {
+              return (
+                logItem.reply_count * 0.15 +
+                logItem.favorite_count * 0.1 +
+                Number(logItem.view_count) * 0.1 +
+                logItem.retweet_count * 0.2
+              );
+            })
+            .reduce((acc, curr) => acc + curr, 0);
     hotItem['time'] = item.time;
     hotList.push(hotItem);
   });
