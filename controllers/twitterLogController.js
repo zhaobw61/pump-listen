@@ -48,6 +48,5 @@ export const getAddressHot = async (req, res) => {
     hotItem['time'] = item.time;
     hotList.push(hotItem);
   });
-  console.log(hotList);
   res.status(200).json({ success: true, data: hotList });
 };
