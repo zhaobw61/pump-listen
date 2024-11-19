@@ -38,4 +38,4 @@ setInterval(() => {
   getAddressList();
 }, 1000 * 60 * 5); // 5分钟
 getAddressList();
-console.log('listen pump start');
+console.log('开始pump 监听', process.env.NODE_ENV);

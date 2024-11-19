@@ -1,12 +1,17 @@
 import axios from 'axios';
-// const axiosInstance = axios.create({
-//   proxy: {
-//     protocol: 'http',
-//     host: '127.0.0.1',
-//     port: '7890',
-//   },
-// });
-const axiosInstance = axios.create();
+let axiosInstance;
+if (process.env.NODE_ENV === 'development') {
+  axiosInstance = axios.create({
+    proxy: {
+      protocol: 'http',
+      host: '127.0.0.1',
+      port: '7890',
+    },
+  });
+}
+if (process.env.NODE_ENV === 'production') {
+  axiosInstance = axios.create();
+}
 // 获取代币的列表
 const getAddressListService = async () => {
   try {
