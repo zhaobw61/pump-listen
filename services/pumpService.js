@@ -1,17 +1,4 @@
-import axios from 'axios';
-let axiosInstance;
-if (process.env.NODE_ENV === 'development') {
-  axiosInstance = axios.create({
-    proxy: {
-      protocol: 'http',
-      host: '127.0.0.1',
-      port: '7890',
-    },
-  });
-}
-if (process.env.NODE_ENV === 'production') {
-  axiosInstance = axios.create();
-}
+import axiosInstance from './request.js';
 // 获取代币的列表
 const getAddressListService = async () => {
   try {
