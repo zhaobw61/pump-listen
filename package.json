@@ -6,7 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "dev": "dotenv -e .env.development nodemon index.js",
-    "pro": "dotenv -e .env.production pm2 start index.js"
+    "pro": "dotenv -e .env.production pm2 start index.js",
+    "ttt": "dotenv -e .env.development node test.js"
   },
   "type": "module",
   "keywords": [],
