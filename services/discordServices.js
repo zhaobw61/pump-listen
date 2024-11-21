@@ -5,7 +5,7 @@ const webhookUrl =
 
 export const sendMessage = async (content) => {
   try {
-    const res = axiosInstance.post(webhookUrl, content);
+    // const res = axiosInstance.post(webhookUrl, content);
   } catch (error) {
     console.log('send dis message error');
   }
