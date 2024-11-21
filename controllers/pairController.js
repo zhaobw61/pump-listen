@@ -21,6 +21,7 @@ export const apiPostUpdatePair = async (req, res) => {
 export const apiDeletePair = async (req, res) => {
   const { address } = req.body;
   const data = await deletePairService(address);
+  await clearTwitterLogService(address, 0);
   console.log(data);
   res.status(200).json({ success: true });
 };
