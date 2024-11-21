@@ -4,6 +4,7 @@ import {
   getCoinDetailService,
 } from '../services/pumpService.js';
 import { addPairService, getPairService } from '../services/newPairService.js';
+import { sendMessage } from '../services/discordServices.js';
 
 async function getAddressList() {
   const list = await getAddressListService();
@@ -13,7 +14,6 @@ async function getAddressList() {
         address: item.coinMint,
       });
       if (checkRes === null) {
-        console.log('find new address');
         const detailData = await getCoinDetailService(item.coinMint);
         if (detailData === false) return;
         const cleanedText = detailData.replace(/\\[nt"\\]/g, '');
@@ -25,6 +25,10 @@ async function getAddressList() {
           imageUrl: item.imageUrl,
           creationTime: item.creationTime,
           twitterAccount: matchRes ? matchRes[0].split('twitter:')[1] : false,
+        });
+        sendMessage({
+          content: `发现新的代币 ${addRes.address}  推特地址  ${addRes.twitterAccount}`,
+          username: '警报机器人',
         });
         if (addRes) {
           console.log('add success');
