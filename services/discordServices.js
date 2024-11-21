@@ -5,7 +5,6 @@ const webhookUrl =
 
 export const sendMessage = async (content) => {
   const res = axiosInstance.post(webhookUrl, content);
-  // console.log(res.data);
 };
 
 // const data = {

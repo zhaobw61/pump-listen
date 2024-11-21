@@ -1,9 +1,9 @@
-import './mongooseIndex.js';
+import '../mongooseIndex.js';
 import {
   getAddressListService,
   getCoinDetailService,
-} from './services/pumpService.js';
-import { addPairService, getPairService } from './services/newPairService.js';
+} from '../services/pumpService.js';
+import { addPairService, getPairService } from '../services/newPairService.js';
 
 async function getAddressList() {
   const list = await getAddressListService();
@@ -33,9 +33,14 @@ async function getAddressList() {
     });
   }
 }
-
-setInterval(() => {
+let clearPumpInter;
+let listenPumpTime = 1000 * 60 * 5; // 5分钟
+export default startPumpListen = () => {
+  if (clearPumpInter) clearInterval(clearPumpInter);
+  clearPumpInter = setInterval(() => {
+    getAddressList();
+  }, listenPumpTime);
   getAddressList();
-}, 1000 * 60 * 5); // 5分钟
-getAddressList();
+};
+
 console.log('开始pump 监听', process.env.NODE_ENV);

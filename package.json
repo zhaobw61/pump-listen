@@ -5,9 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "dotenv -e .env.development nodemon test.js",
-    "pro": "dotenv -e .env.production pm2 index.js",
-    "startScript": "dotenv -e .env.production node pumpIndex.js"
+    "dev": "dotenv -e .env.development nodemon index.js",
+    "pro": "dotenv -e .env.production pm2 index.js"
   },
   "type": "module",
   "keywords": [],

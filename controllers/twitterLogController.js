@@ -1,5 +1,8 @@
-import { getTwitterLogService } from '../services/twitterLogService.js';
-
+import {
+  getTwitterLogService,
+  clearTwitterLogService,
+} from '../services/twitterLogService.js';
+import { getAllPairListService } from '../services/newPairService.js';
 // 获取推特日志
 export const getTwitterLog = async (req, res) => {
   const { address } = req.body;
@@ -59,4 +62,19 @@ export const getAddressHot = async (req, res) => {
     hotList.push(hotItem);
   });
   res.status(200).json({ success: true, data: hotList });
+};
+
+let clearLogInter;
+let spareNum = 120,
+  clearLogTime = 1000 * 60 * 10;
+// 删除日志
+export const startClearTwitterLog = async () => {
+  if (clearLogInter) clearInterval(clearLogInter);
+  clearLogInter = setInterval(async () => {
+    const pairList = await getAllPairListService();
+    pairList.forEach((item) => {
+      const { address } = item;
+      clearTwitterLogService(address, spareNum);
+    });
+  }, clearLogTime);
 };

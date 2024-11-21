@@ -33,6 +33,12 @@ const getPairListService = async (params) => {
   };
 };
 
+// 查询所有交易对
+const getAllPairListService = async () => {
+  const list = await pair.find();
+  return list;
+};
+
 // 删除交易对
 const deletePairService = async (address) => {
   const res = await pair.findOneAndDelete({ address: address });
@@ -54,6 +60,7 @@ export {
   addPairService,
   getPairService,
   getPairListService,
+  getAllPairListService,
   deletePairService,
   updatePairService,
 };
