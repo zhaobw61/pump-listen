@@ -35,7 +35,7 @@ async function getAddressList() {
 }
 let clearPumpInter;
 let listenPumpTime = 1000 * 60 * 5; // 5分钟
-export default startPumpListen = () => {
+export const startPumpListen = () => {
   if (clearPumpInter) clearInterval(clearPumpInter);
   clearPumpInter = setInterval(() => {
     getAddressList();

@@ -1,12 +1,16 @@
 import twitterLog from '../models/twitterLog.js';
 
-// 查询一个交易对
-export const getTwitterLogService = async (address) => {
-  console.log(address);
-  const logRes = await twitterLog.find({
-    address: address,
-  });
-  return logRes;
+// 查询日志
+export const getTwitterLogService = async (
+  address,
+  logNum = 60 * 4,
+  sort = 1
+) => {
+  const results = await twitterLog
+    .find({ address: address })
+    .sort({ _id: sort }) // 1 是增序 -1 是降序
+    .limit(logNum);
+  return results;
 };
 
 // 定时删除日志
