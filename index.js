@@ -17,4 +17,4 @@ app.listen(port, () => {
 
 startPumpListen(); // 监听pump
 startClearTwitterLog(); // 定时删除log
-startAlarm();
+startAlarm(); // 热度警报
