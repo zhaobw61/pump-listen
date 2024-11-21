@@ -68,8 +68,8 @@ export const startAlarm = async () => {
           hotList[hotList.length - 1].topScore +
           hotList[hotList.length - 1].caTwitterScore;
         let averageRate = (newCount - oldCount) / oldCount;
+        console.log('averageRate', averageRate);
         if (averageRate >= 0.2) {
-          // console.log('触发警报');
           sendMessage({
             content: `${address} 热度上涨, 当前热度 ${newCount}`,
             username: '警报狗',
