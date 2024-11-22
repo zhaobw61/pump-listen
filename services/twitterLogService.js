@@ -13,6 +13,29 @@ export const getTwitterLogService = async (
   return results;
 };
 
+// 查询所有日志
+export const getAllTwitterLogService = async () => {
+  const list = await twitterLog.find();
+  return list;
+};
+
+// 过滤日志
+export const filterTwitterLogService = async (params) => {
+  const list = await twitterLog.findOne(params);
+  return list;
+};
+
+// 更新日志
+export const updateTwitterLogService = async (address, params) => {
+  const list = await twitterLog.updateOne(
+    {
+      address: address,
+    },
+    { $set: { ...params } }
+  );
+  return list;
+};
+
 // 定时删除日志
 // count 是保留的数量
 export const clearTwitterLogService = async (address, count) => {

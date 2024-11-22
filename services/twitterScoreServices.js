@@ -1,3 +1,4 @@
+import axiosInstance from './request.js';
 import twitterScore from '../models/twitterScoreModels.js';
 
 // 添加新的分数
@@ -34,4 +35,24 @@ export const findScoreService = async (name) => {
 export const deleteScoreService = async (name) => {
   const res = await twitterScore.findOneAndDelete({ twitterName: name });
   return res;
+};
+
+// 向平台获取推特分数
+export const checkScoreService = async (name) => {
+  console.log('https://api.tweetscout.io/api/score/' + name);
+  try {
+    const res = await axiosInstance.get(
+      `https://api.tweetscout.io/api/score/${name}`,
+      {
+        headers: {
+          ApiKey: '576b0cff-3a2f-4726-a135-af83fd023581',
+        },
+      }
+    );
+    const data = res.data;
+    return data;
+  } catch (error) {
+    console.log('获取分数出错');
+    return false;
+  }
 };

@@ -16,6 +16,11 @@ const twitterLogSchema = new mongoose.Schema({
   logInfo: {
     type: Object,
   },
+  // 检查新的推特，并且估计分数
+  checkNewTwitterStatus: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const twitterLog = mongoose.model('TwitterLog', twitterLogSchema);
