@@ -31,7 +31,7 @@ let updateScoreInter,
   updateScoreTime = 1000 * 10;
 export const startUpdateScore = async () => {
   if (updateScoreInter) clearInterval(updateScoreInter);
-  updateScoreInter = setTimeout(async () => {
+  updateScoreInter = setInterval(async () => {
     console.log('startUpdateScore');
     const checkRes = await filterTwitterLogService({
       userScore: -1,
