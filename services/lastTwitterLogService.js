@@ -21,7 +21,7 @@ export const getAllTwitterLogService = async () => {
 
 // 过滤日志
 export const filterTwitterLogService = async (params) => {
-  const list = await lastTwitterlogs.findOne(params);
+  const list = await lastTwitterlogs.find(params);
   return list;
 };
 

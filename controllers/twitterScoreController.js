@@ -29,29 +29,29 @@ const findScore = async (userscreenName) => {
 };
 
 let updateScoreInter,
-  updateScoreTime = 1000 * 10;
+  updateScoreTime = 1000 * 5;
 export const startUpdateScore = async () => {
   if (updateScoreInter) clearInterval(updateScoreInter);
-  updateScoreInter = setInterval(async () => {
-    console.log('startUpdateScore');
-    const checkRes = await filterTwitterLogService({
+  updateScoreInter = setTimeout(async () => {
+    const checkResList = await filterTwitterLogService({
       userScore: -1,
     });
-    console.log('checkRes', checkRes.userscreenName);
-    if (checkRes) {
-      console.log('开始检查');
-      let score = await findScore(checkRes.userscreenName);
-      let created_at = new Date(checkRes.created_at);
-      const dateTime = moment(created_at).format('YYYY-MM-DD HH:mm:ss');
-      if (score > 100) {
-        sendMessage({
-          content: `合约地址 ${checkRes.address} 用户名 ${checkRes.userscreenName} 推特分数 ${score} 时间 ${dateTime}`,
-          username: '警报狗',
+    if (checkResList.length) {
+      for (let i = 0; i < checkResList.length; i++) {
+        let checkResItem = checkResList[i];
+        let score = await findScore(checkResItem.userscreenName);
+        let created_at = new Date(checkResItem.created_at);
+        const dateTime = moment(created_at).format('YYYY-MM-DD HH:mm:ss');
+        if (score > 100) {
+          sendMessage({
+            content: `合约地址 ${checkResItem.address} 用户名 ${checkResItem.userscreenName} 推特分数 ${score} 时间 ${dateTime}`,
+            username: '警报狗',
+          });
+        }
+        await updateTwitterLogService(checkResItem.twitterId, {
+          userScore: score,
         });
       }
-      const updateRes = await updateTwitterLogService(checkRes.twitterId, {
-        userScore: score,
-      });
     }
   }, updateScoreTime);
 };
