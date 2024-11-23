@@ -40,9 +40,12 @@ export const startUpdateScore = async () => {
     if (checkRes) {
       console.log('开始检查');
       let score = await findScore(checkRes.userscreenName);
+      const dateTime = moment(Number(checkRes.time)).format(
+        'YYYY-MM-DD HH:mm:ss'
+      );
       if (score > 100) {
         sendMessage({
-          content: `合约地址 ${checkRes.address} 用户名 ${checkRes.userscreenName} 推特分数 ${score}`,
+          content: `合约地址 ${checkRes.address} 用户名 ${checkRes.userscreenName} 推特分数 ${score} 时间 ${dateTime}`,
           username: '警报狗',
         });
       }
