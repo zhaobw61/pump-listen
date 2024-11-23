@@ -42,7 +42,7 @@ export const startUpdateScore = async () => {
       let score = await findScore(checkRes.userscreenName);
       if (score > 100) {
         sendMessage({
-          content: `合约地址 ${address} 用户名 ${checkRes.userscreenName} 推特分数 ${score}`,
+          content: `合约地址 ${checkRes.address} 用户名 ${checkRes.userscreenName} 推特分数 ${score}`,
           username: '警报狗',
         });
       }
