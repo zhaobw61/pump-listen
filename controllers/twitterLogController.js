@@ -19,7 +19,7 @@ export const getAddressHot = async (req, res) => {
     let hotItem = {};
     let { tweetList, lastTweetList, topTweetList } = item.logInfo;
     console.log('tweetList', tweetList);
-    hotItem['lastScore'] =
+    hotItem['proTweetScore'] =
       tweetList == 'UserNotFound'
         ? 0
         : tweetList
@@ -45,7 +45,7 @@ export const getAddressHot = async (req, res) => {
               );
             })
             .reduce((acc, curr) => acc + curr, 0);
-    hotItem['caTwitterScore'] =
+    hotItem['lastTweetScore'] =
       lastTweetList == 'UserNotFound'
         ? 0
         : lastTweetList

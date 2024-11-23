@@ -18,7 +18,7 @@ export const startAlarm = async () => {
         logList.forEach((item) => {
           let hotItem = {};
           let { tweetList, lastTweetList, topTweetList } = item.logInfo;
-          hotItem['lastScore'] =
+          hotItem['proTweetScore'] =
             tweetList == 'UserNotFound'
               ? 0
               : tweetList
@@ -44,7 +44,7 @@ export const startAlarm = async () => {
                     );
                   })
                   .reduce((acc, curr) => acc + curr, 0);
-          hotItem['caTwitterScore'] =
+          hotItem['lastTweetScore'] =
             lastTweetList == 'UserNotFound'
               ? 0
               : lastTweetList
@@ -60,13 +60,13 @@ export const startAlarm = async () => {
           hotList.push(hotItem);
         });
         let newCount =
-          hotList[0].lastScore +
+          hotList[0].proTweetScore +
           hotList[0].topScore +
-          hotList[0].caTwitterScore;
+          hotList[0].lastTweetScore;
         let oldCount =
-          hotList[hotList.length - 1].lastScore +
+          hotList[hotList.length - 1].proTweetScore +
           hotList[hotList.length - 1].topScore +
-          hotList[hotList.length - 1].caTwitterScore;
+          hotList[hotList.length - 1].lastTweetScore;
         let averageRate = (newCount - oldCount) / oldCount;
         if (averageRate >= 0.2) {
           sendMessage({
