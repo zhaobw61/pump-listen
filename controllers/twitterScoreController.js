@@ -6,46 +6,48 @@ import {
 import {
   filterTwitterLogService,
   updateTwitterLogService,
-} from '../services/twitterLogService.js';
+} from '../services/lastTwitterLogService.js';
 
-const saveScore = async (twitterName) => {
-  let findRes = await findScoreService(twitterName);
-  console.log(twitterName, findRes);
+import { sendMessage } from '../services/discordServices.js';
+
+const findScore = async (userscreenName) => {
+  let findRes = await findScoreService(userscreenName);
+  console.log('findScore', userscreenName, findRes);
   if (findRes === null) {
-    const scoreInfo = await checkScoreService(twitterName);
+    const scoreInfo = await checkScoreService(userscreenName);
     let score;
     scoreInfo === false ? (score = 0) : (score = scoreInfo.score);
     await addScoreService({
-      twitterName: twitterName,
+      twitterName: userscreenName,
       twitterScore: score,
     });
+    return score;
+  } else {
+    return findRes.twitterScore;
   }
 };
 
 let updateScoreInter,
-  updateScoreTime = 1000 * 30;
+  updateScoreTime = 1000 * 10;
 export const startUpdateScore = async () => {
   if (updateScoreInter) clearInterval(updateScoreInter);
-  updateScoreInter = setInterval(async () => {
+  updateScoreInter = setTimeout(async () => {
     console.log('startUpdateScore');
     const checkRes = await filterTwitterLogService({
-      checkNewTwitterStatus: false,
+      userScore: -1,
     });
+    console.log('checkRes', checkRes.userscreenName);
     if (checkRes) {
-      await saveScore(checkRes.twitterAccountName);
-      if (checkRes.logInfo.lastTweetList) {
-        checkRes.logInfo.lastTweetList.forEach(async (item) => {
-          await saveScore(item.userscreenName);
+      console.log('开始检查');
+      let score = await findScore(checkRes.userscreenName);
+      if (score > 100) {
+        sendMessage({
+          content: `合约地址 ${address} 用户名 ${checkRes.userscreenName} 推特分数 ${score}`,
+          username: '警报狗',
         });
       }
-
-      if (checkRes.logInfo.topTweetList) {
-        checkRes.logInfo.topTweetList.forEach(async (item) => {
-          await saveScore(item.userscreenName);
-        });
-      }
-      await updateTwitterLogService(checkRes.address, {
-        checkNewTwitterStatus: true,
+      const updateRes = await updateTwitterLogService(checkRes.twitterId, {
+        userScore: score,
       });
     }
   }, updateScoreTime);

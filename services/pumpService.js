@@ -3,7 +3,7 @@ import axiosInstance from './request.js';
 const getAddressListService = async () => {
   try {
     const res = await axiosInstance.get(
-      'https://advanced-api.pump.fun/coins/creation-time?marketCapFrom=15000&numHoldersFrom=25'
+      'https://advanced-api.pump.fun/coins/creation-time?marketCapFrom=30000&numHoldersFrom=25'
     );
     const data = res.data;
     return data;

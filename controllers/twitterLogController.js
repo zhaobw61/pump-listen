@@ -1,7 +1,7 @@
 import {
   getTwitterLogService,
   clearTwitterLogService,
-} from '../services/twitterLogService.js';
+} from '../services/lastTwitterLogService.js';
 import { getAllPairListService } from '../services/newPairService.js';
 // 获取推特日志
 export const getTwitterLog = async (req, res) => {

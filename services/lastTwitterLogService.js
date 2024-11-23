@@ -1,4 +1,4 @@
-import twitterLog from '../models/twitterLog.js';
+import lastTwitterlogs from '../models/lastTwitterLogs.js';
 
 // 查询日志
 export const getTwitterLogService = async (
@@ -6,7 +6,7 @@ export const getTwitterLogService = async (
   logNum = 60 * 4,
   sort = 1
 ) => {
-  const results = await twitterLog
+  const results = await lastTwitterlogs
     .find({ address: address })
     .sort({ _id: sort }) // 1 是增序 -1 是降序
     .limit(logNum);
@@ -15,21 +15,22 @@ export const getTwitterLogService = async (
 
 // 查询所有日志
 export const getAllTwitterLogService = async () => {
-  const list = await twitterLog.find();
+  const list = await lastTwitterlogs.find();
   return list;
 };
 
 // 过滤日志
 export const filterTwitterLogService = async (params) => {
-  const list = await twitterLog.findOne(params);
+  const list = await lastTwitterlogs.findOne(params);
   return list;
 };
 
 // 更新日志
-export const updateTwitterLogService = async (address, params) => {
-  const list = await twitterLog.updateOne(
+export const updateTwitterLogService = async (twitterId, params) => {
+  console.log(twitterId, params);
+  const list = await lastTwitterlogs.updateOne(
     {
-      address: address,
+      twitterId: twitterId,
     },
     { $set: { ...params } }
   );
@@ -39,15 +40,15 @@ export const updateTwitterLogService = async (address, params) => {
 // 定时删除日志
 // count 是保留的数量
 export const clearTwitterLogService = async (address, count) => {
-  const logCount = await twitterLog.countDocuments({ address: address });
+  const logCount = await lastTwitterlogs.countDocuments({ address: address });
   const spareNum = logCount - count;
   if (spareNum > 0) {
-    const results = await twitterLog
+    const results = await lastTwitterlogs
       .find({ address: address }, { _id: 1 })
       .sort({ _id: 1 });
     // 获取需要删除的文档的id
     const excessIds = results.splice(0, spareNum).map((doc) => doc._id);
     // 删除多余的文档
-    await twitterLog.deleteMany({ _id: { $in: excessIds } });
+    await lastTwitterlogs.deleteMany({ _id: { $in: excessIds } });
   }
 };
