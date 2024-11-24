@@ -1,80 +1,75 @@
 import {
   getTwitterLogService,
-  clearTwitterLogService,
+  addTwitterLogService,
+  filterTwitterLogService,
 } from '../services/lastTwitterLogService.js';
 import { getAllPairListService } from '../services/newPairService.js';
-// 获取推特日志
-export const getTwitterLog = async (req, res) => {
-  const { address } = req.body;
-  const data = await getTwitterLogService(address);
-  res.status(200).json({ success: true, data });
-};
+import { getLastSearchServices } from '../services/twitterApiServices.js';
+import lastTwitterlogs from '../models/lastTwitterLogs.js';
+import {
+  checkScoreService,
+  addScoreService,
+  findScoreService,
+} from '../services/twitterScoreServices.js';
+import { sendMessage } from '../services/discordServices.js';
 
-// 获取代币的热度
-export const getAddressHot = async (req, res) => {
-  const { address } = req.body;
-  const logList = await getTwitterLogService(address);
-  let hotList = [];
-  logList.forEach((item) => {
-    let hotItem = {};
-    let { tweetList, lastTweetList, topTweetList } = item.logInfo;
-    console.log('tweetList', tweetList);
-    hotItem['proTweetScore'] =
-      tweetList == 'UserNotFound'
-        ? 0
-        : tweetList
-            .map((logItem) => {
-              return (
-                logItem.reply_count * 0.15 +
-                logItem.favorite_count * 0.1 +
-                Number(logItem.view_count) * 0.1 +
-                logItem.retweet_count * 0.2
-              );
-            })
-            .reduce((acc, curr) => acc + curr, 0);
-    hotItem['topScore'] =
-      topTweetList == 'UserNotFound'
-        ? 0
-        : topTweetList
-            .map((logItem) => {
-              return (
-                logItem.reply_count * 0.15 +
-                logItem.favorite_count * 0.1 +
-                Number(logItem.view_count) * 0.1 +
-                logItem.retweet_count * 0.2
-              );
-            })
-            .reduce((acc, curr) => acc + curr, 0);
-    hotItem['lastTweetScore'] =
-      lastTweetList == 'UserNotFound'
-        ? 0
-        : lastTweetList
-            .map((logItem) => {
-              return (
-                logItem.reply_count * 0.15 +
-                logItem.favorite_count * 0.1 +
-                Number(logItem.view_count) * 0.1 +
-                logItem.retweet_count * 0.2
-              );
-            })
-            .reduce((acc, curr) => acc + curr, 0);
-    hotItem['time'] = item.time;
-    hotList.push(hotItem);
-  });
-  res.status(200).json({ success: true, data: hotList });
-};
-
-let clearLogInter;
-let spareNum = 120,
-  clearLogTime = 1000 * 60 * 10;
-// 删除日志
-export const startClearTwitterLog = async () => {
-  if (clearLogInter) clearInterval(clearLogInter);
-  clearLogInter = setInterval(async () => {
-    const pairList = await getAllPairListService();
-    pairList.forEach((item) => {
-      const { address } = item;
-      clearTwitterLogService(address, spareNum);
+// 查询分数
+const findScore = async (userscreenName) => {
+  let findRes = await findScoreService(userscreenName);
+  if (findRes === null) {
+    const scoreInfo = await checkScoreService(userscreenName);
+    let score;
+    scoreInfo === false ? (score = 0) : (score = scoreInfo.score);
+    await addScoreService({
+      twitterName: userscreenName,
+      twitterScore: score,
     });
-  }, clearLogTime);
+    return score;
+  } else {
+    return findRes.twitterScore;
+  }
+};
+
+// 添加新的推特记录
+const addTwitterLog = async (list, searchContent) => {
+  for (let i = 0; i < list.length; i++) {
+    const findRes = await filterTwitterLogService({
+      tweet_id: list[i].tweet_id + 1111,
+    });
+    if (findRes) {
+      break;
+    }
+    let twitterScore = await findScore(list[i].user.screen_name);
+    if (twitterScore > 100) {
+      sendMessage({
+        content: `合约地址 ${searchContent} 用户名 ${list[i].user.screen_name} 推特分数 ${twitterScore} 时间 ${list[i].created_at}`,
+        username: '警报狗',
+      });
+    }
+    addTwitterLogService({
+      tweet_id: list[i].tweet_id,
+      user_id: list[i].user_id,
+      text: list[i].text,
+      created_at: list[i].created_at,
+      screen_name: list[i].user.screen_name,
+      twitterScore: twitterScore,
+    });
+  }
+};
+
+let listenTwitterInter;
+let listenTwitterTime = 1000 * 30;
+
+// 更新推特记录
+export const startListenTwitterLog = async () => {
+  if (listenTwitterInter) clearInterval(listenTwitterInter);
+  listenTwitterInter = setInterval(async () => {
+    const pairList = await getAllPairListService();
+    pairList.forEach(async (item) => {
+      const twitterSearchList = await getLastSearchServices(item.address);
+      if (twitterSearchList.tweets) {
+        addTwitterLog(twitterSearchList.tweets, item.address);
+      }
+    });
+  }, listenTwitterTime);
 };

@@ -1,5 +1,10 @@
 import lastTwitterlogs from '../models/lastTwitterLogs.js';
 
+// 增加新的日志
+export const addTwitterLogService = async (params) => {
+  let res = await new lastTwitterlogs(params).save();
+  return res;
+};
 // 查询日志
 export const getTwitterLogService = async (
   address,
@@ -21,7 +26,7 @@ export const getAllTwitterLogService = async () => {
 
 // 过滤日志
 export const filterTwitterLogService = async (params) => {
-  const list = await lastTwitterlogs.find(params);
+  const list = await lastTwitterlogs.findOne(params);
   return list;
 };
 
