@@ -18,13 +18,14 @@ const findScore = async (userscreenName) => {
   let findRes = await findScoreService(userscreenName);
   if (findRes === null) {
     const scoreInfo = await checkScoreService(userscreenName);
-    let score;
-    scoreInfo === false ? (score = 0) : (score = scoreInfo.score);
+    if (scoreInfo === false) {
+      return false;
+    }
     await addScoreService({
       twitterName: userscreenName,
-      twitterScore: score,
+      twitterScore: scoreInfo.score,
     });
-    return score;
+    return scoreInfo.score;
   } else {
     return findRes.twitterScore;
   }
@@ -40,6 +41,7 @@ const addTwitterLog = async (list, searchContent) => {
       break;
     }
     let twitterScore = await findScore(list[i].user.screen_name);
+    if (twitterScore == false) return;
     if (twitterScore > 100) {
       sendMessage({
         content: `合约地址 ${searchContent} 用户名 ${list[i].user.screen_name} 推特分数 ${twitterScore} 时间 ${list[i].created_at}`,
