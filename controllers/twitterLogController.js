@@ -34,7 +34,7 @@ const findScore = async (userscreenName) => {
 const addTwitterLog = async (list, searchContent) => {
   for (let i = 0; i < list.length; i++) {
     const findRes = await filterTwitterLogService({
-      tweet_id: list[i].tweet_id + 1111,
+      tweet_id: list[i].tweet_id,
     });
     if (findRes) {
       break;
