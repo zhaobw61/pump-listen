@@ -42,7 +42,7 @@ const addTwitterLog = async (list, searchContent) => {
     }
     let twitterScore = await findScore(list[i].user.screen_name);
     if (twitterScore == false) return;
-    if (twitterScore > 100) {
+    if (twitterScore > 300) {
       sendMessage({
         content: `合约地址 ${searchContent} 用户名 ${list[i].user.screen_name} 推特分数 ${twitterScore} 时间 ${list[i].created_at}`,
         username: '警报狗',
