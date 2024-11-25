@@ -3,6 +3,7 @@ import {
   updatePairService,
   deletePairService,
 } from '../services/newPairService.js';
+import { clearTwitterLogService } from '../services/lastTwitterLogService.js';
 
 export const apiGetPairList = async (req, res) => {
   const { pageIndex = 1, pageSize = 10 } = req.query;
