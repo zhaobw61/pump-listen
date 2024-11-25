@@ -49,6 +49,7 @@ const addTwitterLog = async (list, searchContent) => {
       });
     }
     addTwitterLogService({
+      address: searchContent,
       tweet_id: list[i].tweet_id,
       user_id: list[i].user_id,
       text: list[i].text,
