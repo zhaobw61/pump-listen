@@ -16,14 +16,13 @@ async function getProgressCoinAddressList() {
   }
 }
 
-let clearPumpInter;
-let listenPumpTime = 1000 * 60 * 5; // 5分钟
+let clearProgressCoinInter;
+let listenPumpTime = 1000 * 10; // 5分钟
 export const startProgressCoinListen = () => {
-  // if (clearPumpInter) clearInterval(clearPumpInter);
-  // clearPumpInter = setInterval(() => {
-  //   getAddressList();
-  // }, listenPumpTime);
-  getProgressCoinAddressList();
+  if (clearProgressCoinInter) clearInterval(clearProgressCoinInter);
+  clearProgressCoinInter = setInterval(() => {
+    getProgressCoinAddressList();
+  }, listenPumpTime);
 };
 
 console.log('开始gmgn监听热门代币', process.env.NODE_ENV);
