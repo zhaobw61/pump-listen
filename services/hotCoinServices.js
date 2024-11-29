@@ -1,4 +1,5 @@
 import hotCoin from '../models/hotCoinModels.js';
+import { clearTwitterLogService } from '../services/lastTwitterLogService.js';
 // 添加新的热门币种
 export const addHotCoinService = async (params) => {
   const scoreRes = await hotCoin.findOne({
@@ -15,6 +16,7 @@ export const delHotCoinService = async (params) => {
   const res = await hotCoin.findOneAndDelete({
     address: params.address,
   });
+  clearTwitterLogService(params.address, 0);
   return res;
 };
 
