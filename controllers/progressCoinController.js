@@ -8,10 +8,13 @@ async function getProgressCoinAddressList() {
   if (list && list.length) {
     for (let i = 0; i < list.length; i++) {
       let item = list[i];
-      addProgressCoinService({
-        address: item.address,
-        creatTime: new Date().getTime(),
-      });
+      // 即将打满
+      if (item.progress == '1') {
+        addProgressCoinService({
+          address: item.address,
+          creatTime: new Date().getTime(),
+        });
+      }
     }
   }
 }
