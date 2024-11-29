@@ -17,5 +17,5 @@ app.listen(port, () => {
 });
 
 startGmgnListen(); // 监听热门币种
-startProgressCoinListen(); // 监听即将打满币种
+// startProgressCoinListen(); // 监听即将打满币种
 // startListenTwitterLog(); // 监听推特
