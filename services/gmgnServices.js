@@ -4,7 +4,7 @@ import axiosInstance from './request.js';
 export const getHotCoinListService = async () => {
   try {
     const response = await axiosInstance.get(
-      `https://gmgn.ai/defi/quotation/v1/rank/sol/swaps/1h?orderby=change5m&direction=desc&filters[]=renounced&filters[]=frozen&filters[]=burn&filters[]=distribed&min_insider_rate=0&max_insider_rate=0.05&max_created=12h`
+      `https://gmgn.ai/defi/quotation/v1/rank/sol/swaps/5m?orderby=change5m&direction=desc&filters[]=renounced&filters[]=frozen&filters[]=burn&filters[]=distribed&min_insider_rate=0&max_insider_rate=0.05&max_created=3h`
     );
     const data = response.data;
     return data;

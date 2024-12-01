@@ -43,7 +43,7 @@ const deleteOverduHotCoin = async () => {
 };
 
 let clearPumpInter;
-let listenPumpTime = 1000 * 1; // 1分钟
+let listenPumpTime = 1000 * 1; // 1秒钟
 export const startGmgnListen = () => {
   if (clearPumpInter) clearInterval(clearPumpInter);
   clearPumpInter = setInterval(() => {
