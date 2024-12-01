@@ -1,6 +1,5 @@
 import moment from 'moment';
 import {
-  getTwitterLogService,
   addTwitterLogService,
   filterTwitterLogService,
 } from '../services/lastTwitterLogService.js';
@@ -51,10 +50,6 @@ function getUtcTimeDifferenceInMinutes(previousUtcTime) {
 const addTwitterLog = async (list, searchContent, cointType) => {
   for (let i = 0; i < list.length; i++) {
     if (getUtcTimeDifferenceInMinutes(list[i].created_at) > 1) {
-      sendMessage({
-        content: `排行榜合约地址 ${searchContent} 用户名 ${list[i].user.screen_name} 推特分数 ${twitterScore} 时间 ${createdAtTime}`,
-        username: '警报狗',
-      });
       break;
     }
     const findRes = await filterTwitterLogService({
@@ -72,12 +67,12 @@ const addTwitterLog = async (list, searchContent, cointType) => {
       if (cointType == 'HOT') {
         sendMessage({
           content: `排行榜合约地址 ${searchContent} 用户名 ${list[i].user.screen_name} 推特分数 ${twitterScore} 时间 ${createdAtTime}`,
-          username: '排行榜-警报狗',
+          username: '排行榜-警报',
         });
       } else if (cointType == 'PROGRESS') {
         sendMessage({
           content: `内转外合约地址 ${searchContent} 用户名 ${list[i].user.screen_name} 推特分数 ${twitterScore} 时间 ${createdAtTime}`,
-          username: '内转外-警报狗',
+          username: '内转外-警报',
         });
       }
     }
@@ -104,6 +99,7 @@ const listenHotCoin = async () => {
     }
   });
 };
+
 // 监听即将打满币种
 const listenProgressCoin = async () => {
   const progressCoinList = await getAllProgressCoinService();
@@ -117,7 +113,6 @@ const listenProgressCoin = async () => {
 
 let listenTwitterInter;
 let listenTwitterTime = 1000 * 30;
-
 // 更新热门推特记录
 export const startListenTwitterLog = async () => {
   if (listenTwitterInter) clearInterval(listenTwitterInter);
