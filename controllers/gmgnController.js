@@ -12,7 +12,7 @@ async function getAddressList() {
   if (list && list.length) {
     for (let i = 0; i < 3; i++) {
       let item = list[i];
-      if (item.creator_close) {
+      if (item.launchpad) {
         addHotCoinService({
           address: item.address,
           symbol: item.symbol,
