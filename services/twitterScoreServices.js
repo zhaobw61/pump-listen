@@ -39,7 +39,6 @@ export const deleteScoreService = async (name) => {
 
 // 向平台获取推特分数
 export const checkScoreService = async (name) => {
-  console.log('https://api.tweetscout.io/api/score/' + name);
   try {
     const res = await axiosInstance.get(
       `https://api.tweetscout.io/api/score/${name}`,

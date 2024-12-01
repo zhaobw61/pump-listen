@@ -25,3 +25,9 @@ export const findProgressCoinService = async (address) => {
   });
   return res;
 };
+
+// 查询所有热门币种
+export const getAllProgressCoinService = async () => {
+  const list = await progressCoin.find();
+  return list;
+};
