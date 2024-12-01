@@ -14,6 +14,7 @@ export const getLastSearchServices = async (content) => {
     const data = response.data;
     return data;
   } catch (error) {
+    console.log('推特搜索失败');
     return {};
   }
 };
