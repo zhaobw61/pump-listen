@@ -3,6 +3,8 @@ import {
   apiGetPairList,
   apiPostUpdatePair,
   apiDeletePair,
+  apiGetHotCoinList,
+  apiGetProgressCoinList,
 } from '../controllers/pairController.js';
 
 var app = express.Router();
@@ -15,5 +17,11 @@ app.post('/updatePair', apiPostUpdatePair);
 
 // 删除交易对
 app.post('/deletePair', apiDeletePair);
+
+// 获取热门代币
+app.get('/hotCoinlist', apiGetHotCoinList);
+
+// 获取即将打满代币
+app.get('/progressCoinList', apiGetProgressCoinList);
 
 export default app;

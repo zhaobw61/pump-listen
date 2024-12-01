@@ -16,6 +16,7 @@ async function getProgressCoinAddressList() {
       if (item.progress == '1') {
         addProgressCoinService({
           address: item.address,
+          symbol: item.symbol,
           creatTime: new Date().getTime(),
         });
       }

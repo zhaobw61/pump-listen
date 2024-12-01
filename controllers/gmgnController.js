@@ -15,6 +15,7 @@ async function getAddressList() {
       if (item.creator_close) {
         addHotCoinService({
           address: item.address,
+          symbol: item.symbol,
           creatTime: new Date().getTime(),
         });
       }
