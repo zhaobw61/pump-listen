@@ -12,10 +12,12 @@ async function getAddressList() {
   if (list && list.length) {
     for (let i = 0; i < 3; i++) {
       let item = list[i];
-      addHotCoinService({
-        address: item.address,
-        creatTime: new Date().getTime(),
-      });
+      if (item.creator_close) {
+        addHotCoinService({
+          address: item.address,
+          creatTime: new Date().getTime(),
+        });
+      }
     }
   }
 }
