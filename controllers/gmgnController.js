@@ -25,7 +25,7 @@ async function getAddressList() {
 
 const deleteOverduHotCoin = async () => {
   const coinCount = await hotCoin.countDocuments();
-  const spareNum = coinCount - 10;
+  const spareNum = coinCount - 30;
   if (spareNum > 0) {
     const results = await hotCoin.find().sort({ _id: 1 });
     const deleteList = results.splice(0, spareNum);
