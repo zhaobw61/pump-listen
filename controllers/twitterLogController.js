@@ -3,7 +3,7 @@ import {
   addTwitterLogService,
   filterTwitterLogService,
 } from '../services/lastTwitterLogService.js';
-import { getAllPairListService } from '../services/newPairService.js';
+import { getAllHotCoinService } from '../services/hotCoinServices.js';
 import { getLastSearchServices } from '../services/twitterApiServices.js';
 import lastTwitterlogs from '../models/lastTwitterLogs.js';
 import {
@@ -60,19 +60,25 @@ const addTwitterLog = async (list, searchContent) => {
   }
 };
 
+// 监听热门币种
+const listenHotCoin = async () => {
+  const hotCoinList = await getAllHotCoinService();
+  console.log(hotCoinList);
+  hotCoinList.forEach(async (item) => {
+    const twitterSearchList = await getLastSearchServices(item.address);
+    if (twitterSearchList.tweets) {
+      addTwitterLog(twitterSearchList.tweets, item.address);
+    }
+  });
+};
+
 let listenTwitterInter;
-let listenTwitterTime = 1000 * 30;
+let listenTwitterTime = 1000 * 10;
 
 // 更新推特记录
 export const startListenTwitterLog = async () => {
   if (listenTwitterInter) clearInterval(listenTwitterInter);
   listenTwitterInter = setInterval(async () => {
-    const pairList = await getAllPairListService();
-    pairList.forEach(async (item) => {
-      const twitterSearchList = await getLastSearchServices(item.address);
-      if (twitterSearchList.tweets) {
-        addTwitterLog(twitterSearchList.tweets, item.address);
-      }
-    });
+    listenHotCoin(); // 监听热门币种
   }, listenTwitterTime);
 };

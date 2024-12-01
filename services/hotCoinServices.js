@@ -27,3 +27,9 @@ export const findHotCoinService = async (address) => {
   });
   return res;
 };
+
+// 查询所有热门币种
+export const getAllHotCoinService = async () => {
+  const list = await hotCoin.find();
+  return list;
+};
