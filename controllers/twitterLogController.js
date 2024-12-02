@@ -33,8 +33,7 @@ const findScore = async (userscreenName) => {
   }
 };
 
-function getUtcTimeDifferenceInMinutes(previousUtcTime) {
-  const now = new Date(); // 获取当前时间
+function getUtcTimeDifferenceInMinutes(now, previousUtcTime) {
   const previous = new Date(previousUtcTime); // 将之前的 UTC 时间字符串解析为 Date 对象
 
   // 计算时间差（毫秒）
@@ -48,10 +47,13 @@ function getUtcTimeDifferenceInMinutes(previousUtcTime) {
 
 // 添加新的推特记录
 const addTwitterLog = async (list, searchContent, cointType) => {
+  let oneMinutePeopleNum = 0;
+  const now = new Date(); // 获取当前时间
   for (let i = 0; i < list.length; i++) {
-    if (getUtcTimeDifferenceInMinutes(list[i].created_at) > 1) {
+    if (getUtcTimeDifferenceInMinutes(now, list[i].created_at) > 1) {
       break;
     }
+    oneMinutePeopleNum++;
     const findRes = await filterTwitterLogService({
       tweet_id: list[i].tweet_id,
     });
@@ -86,6 +88,19 @@ const addTwitterLog = async (list, searchContent, cointType) => {
       twitterScore: twitterScore,
       cointType: cointType,
     });
+  }
+  if (oneMinutePeopleNum >= 5) {
+    if (cointType == 'HOT') {
+      sendMessage({
+        content: `排行榜合约地址 ${searchContent} 人数 ${oneMinutePeopleNum}`,
+        username: '人数-警报',
+      });
+    } else if (cointType == 'PROGRESS') {
+      sendMessage({
+        content: `内转外合约地址 ${searchContent} 人数 ${oneMinutePeopleNum}`,
+        username: '人数-警报',
+      });
+    }
   }
 };
 
