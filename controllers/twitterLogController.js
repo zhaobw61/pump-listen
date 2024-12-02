@@ -60,7 +60,7 @@ const addTwitterLog = async (list, searchContent, cointType) => {
     if (findRes) {
       break;
     }
-    let twitterScore = await findScore(list[i].user.screen_name);
+    let twitterScore = await findScore(list[i].screen_name);
     if (twitterScore == false) return;
     if (twitterScore > 500) {
       const createdAtTime = moment(list[i].created_at).format(
@@ -68,12 +68,12 @@ const addTwitterLog = async (list, searchContent, cointType) => {
       );
       if (cointType == 'HOT') {
         sendMessage({
-          content: `排行榜合约地址 ${searchContent} 用户名 ${list[i].user.screen_name} 推特分数 ${twitterScore} 时间 ${createdAtTime}`,
+          content: `排行榜合约地址 ${searchContent} 用户名 ${list[i].screen_name} 推特分数 ${twitterScore} 时间 ${createdAtTime}`,
           username: '排行榜-警报',
         });
       } else if (cointType == 'PROGRESS') {
         sendMessage({
-          content: `内转外合约地址 ${searchContent} 用户名 ${list[i].user.screen_name} 推特分数 ${twitterScore} 时间 ${createdAtTime}`,
+          content: `内转外合约地址 ${searchContent} 用户名 ${list[i].screen_name} 推特分数 ${twitterScore} 时间 ${createdAtTime}`,
           username: '内转外-警报',
         });
       }
@@ -84,7 +84,7 @@ const addTwitterLog = async (list, searchContent, cointType) => {
       user_id: list[i].user_id,
       text: list[i].text,
       created_at: list[i].created_at,
-      screen_name: list[i].user.screen_name,
+      screen_name: list[i].screen_name,
       twitterScore: twitterScore,
       cointType: cointType,
     });
