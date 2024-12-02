@@ -3,6 +3,9 @@ import axiosInstance from './request.js';
 // 查询推特的搜索
 export const getLastSearchServices = async (content) => {
   try {
+    console.log(
+      `https://twitter.good6.top/api/base/apitools/search?any=${content}&apiKey=1547220975078735873OGMweEFHRUFIUzJNEkycG54ZW54SEp&product=Latest`
+    );
     const response = await axiosInstance.get(
       `https://twitter.good6.top/api/base/apitools/search?any=${content}&apiKey=1547220975078735873OGMweEFHRUFIUzJNEkycG54ZW54SEp&product=Latest`
     );
