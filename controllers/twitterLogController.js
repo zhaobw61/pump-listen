@@ -127,7 +127,7 @@ const listenProgressCoin = async () => {
 };
 
 let listenTwitterInter;
-let listenTwitterTime = 1000 * 30;
+let listenTwitterTime = 1000 * 20;
 // 更新热门推特记录
 export const startListenTwitterLog = async () => {
   if (listenTwitterInter) clearInterval(listenTwitterInter);
