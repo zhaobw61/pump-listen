@@ -111,6 +111,10 @@ const listenHotCoin = async () => {
     const hotCoinList = await getAllHotCoinService();
     if (hotCoinList.length == 0) return;
     let item = hotCoinList[index];
+    if (item == undefined) {
+      console.log(hotCoinList);
+      console.log('index', index);
+    }
     const twitterSearchList = await getLastSearchServices(item.address);
     if (twitterSearchList.tweets) {
       addTwitterLog(twitterSearchList.tweets, item.address, 'HOT');
