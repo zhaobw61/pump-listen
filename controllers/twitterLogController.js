@@ -45,8 +45,8 @@ function getUtcTimeDifferenceInMinutes(now, previousUtcTime) {
   return differenceMinutes;
 }
 
-// 添加新的推特记录
-const addTwitterLog = async (list, searchContent, cointType) => {
+// 检查一分钟内发推数量
+const checknInMinutesNum = (list, cointType) => {
   let oneMinutePeopleNum = 0;
   const now = new Date(); // 获取当前时间
   for (let i = 0; i < list.length; i++) {
@@ -54,6 +54,26 @@ const addTwitterLog = async (list, searchContent, cointType) => {
       break;
     }
     oneMinutePeopleNum++;
+  }
+  if (oneMinutePeopleNum >= 4) {
+    if (cointType == 'HOT') {
+      sendMessage({
+        content: `排行榜合约地址 ${searchContent} 人数 ${oneMinutePeopleNum}`,
+        username: '人数-警报',
+      });
+    } else if (cointType == 'PROGRESS') {
+      sendMessage({
+        content: `内转外合约地址 ${searchContent} 人数 ${oneMinutePeopleNum}`,
+        username: '人数-警报',
+      });
+    }
+  }
+};
+
+// 添加新的推特记录
+const addTwitterLog = async (list, searchContent, cointType) => {
+  checknInMinutesNum(list, cointType);
+  for (let i = 0; i < list.length; i++) {
     const findRes = await filterTwitterLogService({
       tweet_id: list[i].tweet_id,
     });
@@ -61,7 +81,7 @@ const addTwitterLog = async (list, searchContent, cointType) => {
       break;
     }
     let twitterScore = await findScore(list[i].screen_name);
-    if (twitterScore == false) return;
+    if (twitterScore == false) break;
     if (twitterScore > 500) {
       const createdAtTime = moment(list[i].created_at).format(
         'YYYY-MM-DD HH:mm:ss'
@@ -88,20 +108,6 @@ const addTwitterLog = async (list, searchContent, cointType) => {
       twitterScore: twitterScore,
       cointType: cointType,
     });
-  }
-  console.log('oneMinutePeopleNum', oneMinutePeopleNum);
-  if (oneMinutePeopleNum >= 4) {
-    if (cointType == 'HOT') {
-      sendMessage({
-        content: `排行榜合约地址 ${searchContent} 人数 ${oneMinutePeopleNum}`,
-        username: '人数-警报',
-      });
-    } else if (cointType == 'PROGRESS') {
-      sendMessage({
-        content: `内转外合约地址 ${searchContent} 人数 ${oneMinutePeopleNum}`,
-        username: '人数-警报',
-      });
-    }
   }
 };
 
