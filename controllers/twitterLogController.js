@@ -46,7 +46,7 @@ function getUtcTimeDifferenceInMinutes(now, previousUtcTime) {
 }
 
 // 检查一分钟内发推数量
-const checknInMinutesNum = (list, cointType) => {
+const checknInMinutesNum = (list, searchContent, cointType) => {
   let oneMinutePeopleNum = 0;
   const now = new Date(); // 获取当前时间
   for (let i = 0; i < list.length; i++) {
@@ -72,7 +72,7 @@ const checknInMinutesNum = (list, cointType) => {
 
 // 添加新的推特记录
 const addTwitterLog = async (list, searchContent, cointType) => {
-  checknInMinutesNum(list, cointType);
+  checknInMinutesNum(list, searchContent, cointType);
   for (let i = 0; i < list.length; i++) {
     const findRes = await filterTwitterLogService({
       tweet_id: list[i].tweet_id,
