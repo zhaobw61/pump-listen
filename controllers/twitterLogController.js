@@ -118,6 +118,9 @@ const listenHotCoin = async () => {
     console.log('hot heart', new Date());
     const hotCoinList = await getAllHotCoinService();
     if (hotCoinList.length == 0) return;
+    if (index > hotCoinList.length - 1) {
+      index = 0;
+    }
     let item = hotCoinList[index];
     let twitterSearchList;
     try {
@@ -132,9 +135,6 @@ const listenHotCoin = async () => {
       addTwitterLog(twitterSearchList.tweets, item.address, 'HOT');
     }
     index++;
-    if (index > hotCoinList.length - 1) {
-      index = 0;
-    }
   }, 1000);
 };
 
@@ -145,6 +145,9 @@ const listenProgressCoin = async () => {
     console.log('Progress heart', new Date());
     const progressCoinList = await getAllProgressCoinService();
     if (progressCoinList.length == 0) return;
+    if (index > progressCoinList.length - 1) {
+      index = 0;
+    }
     let item = progressCoinList[index];
     let twitterSearchList;
     try {
@@ -159,9 +162,6 @@ const listenProgressCoin = async () => {
       addTwitterLog(twitterSearchList.tweets, item.address, 'PROGRESS');
     }
     index++;
-    if (index > progressCoinList.length - 1) {
-      index = 0;
-    }
   }, 1000);
 };
 
