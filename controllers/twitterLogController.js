@@ -119,7 +119,7 @@ const listenHotCoin = async () => {
     if (index > hotCoinList.length - 1) {
       index = 0;
     }
-  }, 100);
+  }, 1000);
 };
 
 // 监听即将打满币种
@@ -137,7 +137,7 @@ const listenProgressCoin = async () => {
     if (index > progressCoinList.length - 1) {
       index = 0;
     }
-  }, 100);
+  }, 1000);
 };
 
 // 更新热门推特记录
