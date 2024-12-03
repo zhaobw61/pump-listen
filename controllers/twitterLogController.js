@@ -111,7 +111,6 @@ const listenHotCoin = async () => {
   setInterval(async () => {
     console.log('hot heart', new Date());
     const hotCoinList = await getAllHotCoinService();
-    console.log('list - length', hotCoinList.length);
     if (hotCoinList.length == 0) return;
     let item = hotCoinList[index];
     let twitterSearchList;
