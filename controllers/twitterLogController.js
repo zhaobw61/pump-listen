@@ -118,7 +118,8 @@ const listenHotCoin = async () => {
       twitterSearchList = await getLastSearchServices(item.address);
     } catch (error) {
       console.log('hotCoinList', hotCoinList);
-      console.log('item', index, item);
+      console.log('index', index);
+      console.log('item', item);
     }
 
     if (twitterSearchList.tweets) {
