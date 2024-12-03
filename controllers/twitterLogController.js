@@ -89,6 +89,7 @@ const addTwitterLog = async (list, searchContent, cointType) => {
       cointType: cointType,
     });
   }
+  console.log('oneMinutePeopleNum', oneMinutePeopleNum);
   if (oneMinutePeopleNum >= 4) {
     if (cointType == 'HOT') {
       sendMessage({
