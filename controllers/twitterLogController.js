@@ -89,7 +89,7 @@ const addTwitterLog = async (list, searchContent, cointType) => {
       cointType: cointType,
     });
   }
-  if (oneMinutePeopleNum >= 5) {
+  if (oneMinutePeopleNum >= 3) {
     if (cointType == 'HOT') {
       sendMessage({
         content: `排行榜合约地址 ${searchContent} 人数 ${oneMinutePeopleNum}`,
