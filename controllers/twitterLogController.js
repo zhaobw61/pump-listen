@@ -111,14 +111,17 @@ const listenHotCoin = async () => {
   setInterval(async () => {
     console.log('hot heart', new Date());
     const hotCoinList = await getAllHotCoinService();
-    console.log(hotCoinList.length);
+    console.log('list - length', hotCoinList.length);
     if (hotCoinList.length == 0) return;
     let item = hotCoinList[index];
-    if (item == undefined) {
-      console.log(hotCoinList);
-      console.log('index', index);
+    let twitterSearchList;
+    try {
+      twitterSearchList = await getLastSearchServices(item.address);
+    } catch (error) {
+      console.log('hotCoinList', hotCoinList);
+      console.log('item', index, item);
     }
-    const twitterSearchList = await getLastSearchServices(item.address);
+
     if (twitterSearchList.tweets) {
       addTwitterLog(twitterSearchList.tweets, item.address, 'HOT');
     }
