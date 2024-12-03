@@ -2,8 +2,9 @@ import axiosInstance from './request.js';
 
 // 查询推特的搜索
 export const getLastSearchServices = async (content) => {
+  let response;
   try {
-    const response = await axiosInstance.get(
+    response = await axiosInstance.get(
       `https://twitter.good6.top/api/base/apitools/search?words=${content}&apiKey=1547220975078735873OGMweEFHRUFIUzJNEkycG54ZW54SEp&product=Latest`
     );
     const searchList = JSON.parse(response.data.data);
@@ -30,7 +31,8 @@ export const getLastSearchServices = async (content) => {
     }
     return list;
   } catch (error) {
-    console.log('推特搜索失败');
+    console.log('推特搜索失败', error);
+    console.log(response.data);
     console.log(
       `https://twitter.good6.top/api/base/apitools/search?words=${content}&apiKey=1547220975078735873OGMweEFHRUFIUzJNEkycG54ZW54SEp&product=Latest`
     );

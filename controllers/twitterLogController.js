@@ -119,7 +119,7 @@ const listenHotCoin = async () => {
     if (index > hotCoinList.length - 1) {
       index = 0;
     }
-  }, 1000);
+  }, 100);
 };
 
 // 监听即将打满币种
@@ -129,8 +129,6 @@ const listenProgressCoin = async () => {
     const progressCoinList = await getAllProgressCoinService();
     if (progressCoinList.length == 0) return;
     let item = progressCoinList[index];
-    console.log('progressCoinList', progressCoinList);
-    console.log('index', index);
     const twitterSearchList = await getLastSearchServices(item.address);
     if (twitterSearchList.tweets) {
       addTwitterLog(twitterSearchList.tweets, item.address, 'PROGRESS');
@@ -139,11 +137,9 @@ const listenProgressCoin = async () => {
     if (index > progressCoinList.length - 1) {
       index = 0;
     }
-  }, 1000);
+  }, 100);
 };
 
-let listenTwitterInter;
-let listenTwitterTime = 1000 * 20;
 // 更新热门推特记录
 export const startListenTwitterLog = async () => {
   listenHotCoin(); // 监听热门币种
