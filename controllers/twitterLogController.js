@@ -108,7 +108,9 @@ const addTwitterLog = async (list, searchContent, cointType) => {
 const listenHotCoin = async () => {
   let index = 0;
   setInterval(async () => {
+    console.log('hot heart', new Date());
     const hotCoinList = await getAllHotCoinService();
+    console.log(hotCoinList.length);
     if (hotCoinList.length == 0) return;
     let item = hotCoinList[index];
     if (item == undefined) {
@@ -130,6 +132,7 @@ const listenHotCoin = async () => {
 const listenProgressCoin = async () => {
   let index = 0;
   setInterval(async () => {
+    console.log('Progress heart', new Date());
     const progressCoinList = await getAllProgressCoinService();
     if (progressCoinList.length == 0) return;
     let item = progressCoinList[index];
