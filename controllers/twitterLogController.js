@@ -146,7 +146,15 @@ const listenProgressCoin = async () => {
     const progressCoinList = await getAllProgressCoinService();
     if (progressCoinList.length == 0) return;
     let item = progressCoinList[index];
-    const twitterSearchList = await getLastSearchServices(item.address);
+    let twitterSearchList;
+    try {
+      twitterSearchList = await getLastSearchServices(item.address);
+    } catch (error) {
+      console.log('progressCoinList', progressCoinList);
+      console.log('index', index);
+      console.log('item', item);
+    }
+
     if (twitterSearchList.tweets) {
       addTwitterLog(twitterSearchList.tweets, item.address, 'PROGRESS');
     }
