@@ -106,33 +106,46 @@ const addTwitterLog = async (list, searchContent, cointType) => {
 
 // 监听热门币种
 const listenHotCoin = async () => {
-  const hotCoinList = await getAllHotCoinService();
-  hotCoinList.forEach(async (item) => {
+  let index = 0;
+  setInterval(async () => {
+    const hotCoinList = await getAllHotCoinService();
+    if (hotCoinList.length == 0) return;
+    let item = hotCoinList[index];
     const twitterSearchList = await getLastSearchServices(item.address);
     if (twitterSearchList.tweets) {
       addTwitterLog(twitterSearchList.tweets, item.address, 'HOT');
     }
-  });
+    index++;
+    if (index > hotCoinList.length - 1) {
+      index = 0;
+    }
+  }, 1000);
 };
 
 // 监听即将打满币种
 const listenProgressCoin = async () => {
-  const progressCoinList = await getAllProgressCoinService();
-  progressCoinList.forEach(async (item) => {
+  let index = 0;
+  setInterval(async () => {
+    const progressCoinList = await getAllProgressCoinService();
+    if (progressCoinList.length == 0) return;
+    let item = progressCoinList[index];
+    console.log('progressCoinList', progressCoinList);
+    console.log('index', index);
     const twitterSearchList = await getLastSearchServices(item.address);
     if (twitterSearchList.tweets) {
       addTwitterLog(twitterSearchList.tweets, item.address, 'PROGRESS');
     }
-  });
+    index++;
+    if (index > progressCoinList.length - 1) {
+      index = 0;
+    }
+  }, 1000);
 };
 
 let listenTwitterInter;
 let listenTwitterTime = 1000 * 20;
 // 更新热门推特记录
 export const startListenTwitterLog = async () => {
-  if (listenTwitterInter) clearInterval(listenTwitterInter);
-  listenTwitterInter = setInterval(async () => {
-    listenHotCoin(); // 监听热门币种
-    listenProgressCoin(); // 监听即将打满币种
-  }, listenTwitterTime);
+  listenHotCoin(); // 监听热门币种
+  listenProgressCoin(); // 监听即将打满币种
 };

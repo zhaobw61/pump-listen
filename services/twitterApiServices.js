@@ -4,7 +4,7 @@ import axiosInstance from './request.js';
 export const getLastSearchServices = async (content) => {
   try {
     const response = await axiosInstance.get(
-      `https://twitter.good6.top/api/base/apitools/search?any=${content}&apiKey=1547220975078735873OGMweEFHRUFIUzJNEkycG54ZW54SEp&product=Latest`
+      `https://twitter.good6.top/api/base/apitools/search?words=${content}&apiKey=1547220975078735873OGMweEFHRUFIUzJNEkycG54ZW54SEp&product=Latest`
     );
     const searchList = JSON.parse(response.data.data);
     const oriList =
@@ -31,6 +31,9 @@ export const getLastSearchServices = async (content) => {
     return list;
   } catch (error) {
     console.log('推特搜索失败');
+    console.log(
+      `https://twitter.good6.top/api/base/apitools/search?words=${content}&apiKey=1547220975078735873OGMweEFHRUFIUzJNEkycG54ZW54SEp&product=Latest`
+    );
     return {};
   }
 };
