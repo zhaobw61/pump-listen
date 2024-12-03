@@ -68,12 +68,12 @@ const addTwitterLog = async (list, searchContent, cointType) => {
       );
       if (cointType == 'HOT') {
         sendMessage({
-          content: `排行榜合约地址 ${searchContent} 用户名 ${list[i].screen_name} 推特分数 ${twitterScore} 时间 ${createdAtTime}`,
+          content: `排行榜合约地址 ${searchContent} 用户名 ${list[i].screen_name} 推特分数 ${twitterScore} 推特创建时间 ${createdAtTime}`,
           username: '排行榜-警报',
         });
       } else if (cointType == 'PROGRESS') {
         sendMessage({
-          content: `内转外合约地址 ${searchContent} 用户名 ${list[i].screen_name} 推特分数 ${twitterScore} 时间 ${createdAtTime}`,
+          content: `内转外合约地址 ${searchContent} 用户名 ${list[i].screen_name} 推特分数 ${twitterScore} 推特创建时间 ${createdAtTime}`,
           username: '内转外-警报',
         });
       }
