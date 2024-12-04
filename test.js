@@ -15,6 +15,15 @@
 //   .catch(function (error) {
 //     console.log(error);
 //   });
-let asd = {};
-asd[111] = 111;
-console.log(asd);
+import { sendMessage } from './services/discordServices.js';
+
+sendMessage({
+  content: `内转外
+  币名字 xxx
+  合约地址 xxxx
+  用户名 xxx
+  推特分数 xxxx
+  推特创建时间 xxx
+  `,
+  username: '内转外-警报',
+});

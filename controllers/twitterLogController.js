@@ -48,7 +48,7 @@ function getUtcTimeDifferenceInMinutes(now, previousUtcTime) {
 }
 
 // 检查一分钟内发推数量
-const checknInMinutesNum = (list, searchContent, cointType) => {
+const checknInMinutesNum = (list, searchContent, cointType, coinItem) => {
   let oneMinutePeopleList = new Set();
   const now = new Date(); // 获取当前时间
   if (messageNoticTime[searchContent]) {
@@ -68,12 +68,19 @@ const checknInMinutesNum = (list, searchContent, cointType) => {
     messageNoticTime[searchContent] = new Date();
     if (cointType == 'HOT') {
       sendMessage({
-        content: `排行榜合约地址 ${searchContent} 人数 ${oneMinutePeopleList.size}`,
+        content: `排行榜
+        币名字 ${coinItem.symbol}
+        合约地址 ${searchContent}
+        人数 ${oneMinutePeopleList.size}
+      `,
         username: '人数-警报',
       });
     } else if (cointType == 'PROGRESS') {
       sendMessage({
-        content: `内转外合约地址 ${searchContent} 人数 ${oneMinutePeopleList.size}}`,
+        content: `内转外
+        币名字 ${coinItem.symbol}
+        合约地址 ${searchContent}
+        人数 ${oneMinutePeopleList.size}}`,
         username: '人数-警报',
       });
     }
@@ -81,8 +88,8 @@ const checknInMinutesNum = (list, searchContent, cointType) => {
 };
 
 // 添加新的推特记录
-const addTwitterLog = async (list, searchContent, cointType) => {
-  checknInMinutesNum(list, searchContent, cointType);
+const addTwitterLog = async (list, searchContent, cointType, coinItem) => {
+  checknInMinutesNum(list, searchContent, cointType, coinItem);
   for (let i = 0; i < list.length; i++) {
     const findRes = await filterTwitterLogService({
       tweet_id: list[i].tweet_id,
@@ -98,12 +105,23 @@ const addTwitterLog = async (list, searchContent, cointType) => {
       );
       if (cointType == 'HOT') {
         sendMessage({
-          content: `排行榜合约地址 ${searchContent} 用户名 ${list[i].screen_name} 推特分数 ${twitterScore} 推特创建时间 ${createdAtTime}`,
+          content: `排行榜
+          币名字 ${coinItem.symbol}
+          合约地址 ${searchContent}
+          用户名 ${list[i].screen_name}
+          推特分数 ${twitterScore}
+          推特创建时间 ${createdAtTime}`,
           username: '排行榜-警报',
         });
       } else if (cointType == 'PROGRESS') {
         sendMessage({
-          content: `内转外合约地址 ${searchContent} 用户名 ${list[i].screen_name} 推特分数 ${twitterScore} 推特创建时间 ${createdAtTime}`,
+          content: `内转外
+          币名字 ${coinItem.symbol}
+          合约地址 ${searchContent}
+          用户名 ${list[i].screen_name}
+          推特分数 ${twitterScore}
+          推特创建时间 ${createdAtTime}
+          `,
           username: '内转外-警报',
         });
       }
@@ -142,7 +160,7 @@ const listenHotCoin = async () => {
     }
 
     if (twitterSearchList.tweets) {
-      addTwitterLog(twitterSearchList.tweets, item.address, 'HOT');
+      addTwitterLog(twitterSearchList.tweets, item.address, 'HOT', item);
     }
     index++;
   }, 1000);
@@ -169,7 +187,7 @@ const listenProgressCoin = async () => {
     }
 
     if (twitterSearchList.tweets) {
-      addTwitterLog(twitterSearchList.tweets, item.address, 'PROGRESS');
+      addTwitterLog(twitterSearchList.tweets, item.address, 'PROGRESS', item);
     }
     index++;
   }, 1000);
