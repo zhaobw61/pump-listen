@@ -49,7 +49,7 @@ function getUtcTimeDifferenceInMinutes(now, previousUtcTime) {
 
 // 检查一分钟内发推数量
 const checknInMinutesNum = (list, searchContent, cointType) => {
-  let oneMinutePeopleNum = 0;
+  let oneMinutePeopleList = new Set();
   const now = new Date(); // 获取当前时间
   if (messageNoticTime[searchContent]) {
     if (
@@ -62,18 +62,18 @@ const checknInMinutesNum = (list, searchContent, cointType) => {
     if (getUtcTimeDifferenceInMinutes(now, list[i].created_at) > 1) {
       break;
     }
-    oneMinutePeopleNum++;
+    oneMinutePeopleList.add(list[i].screen_name);
   }
-  if (oneMinutePeopleNum >= 5) {
+  if (oneMinutePeopleList.size >= 5) {
     messageNoticTime[searchContent] = new Date();
     if (cointType == 'HOT') {
       sendMessage({
-        content: `排行榜合约地址 ${searchContent} 人数 ${oneMinutePeopleNum}`,
+        content: `排行榜合约地址 ${searchContent} 人数 ${oneMinutePeopleList.size}`,
         username: '人数-警报',
       });
     } else if (cointType == 'PROGRESS') {
       sendMessage({
-        content: `内转外合约地址 ${searchContent} 人数 ${oneMinutePeopleNum}}`,
+        content: `内转外合约地址 ${searchContent} 人数 ${oneMinutePeopleList.size}}`,
         username: '人数-警报',
       });
     }
