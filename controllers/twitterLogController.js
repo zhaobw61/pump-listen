@@ -80,7 +80,7 @@ const checknInMinutesNum = (list, searchContent, cointType, coinItem) => {
         content: `内转外
         币名字 ${coinItem.symbol}
         合约地址 ${searchContent}
-        人数 ${oneMinutePeopleList.size}}`,
+        人数 ${oneMinutePeopleList.size}`,
         username: '人数-警报',
       });
     }
