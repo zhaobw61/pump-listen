@@ -48,22 +48,28 @@ function getUtcTimeDifferenceInMinutes(now, previousUtcTime) {
 // 检查一分钟内发推数量
 const checknInMinutesNum = (list, searchContent, cointType) => {
   let oneMinutePeopleNum = 0;
+  let useNameList = [];
   const now = new Date(); // 获取当前时间
   for (let i = 0; i < list.length; i++) {
     if (getUtcTimeDifferenceInMinutes(now, list[i].created_at) > 1) {
       break;
     }
     oneMinutePeopleNum++;
+    useNameList.push(list[i].screen_name);
   }
-  if (oneMinutePeopleNum >= 4) {
+  if (oneMinutePeopleNum >= 5) {
     if (cointType == 'HOT') {
       sendMessage({
-        content: `排行榜合约地址 ${searchContent} 人数 ${oneMinutePeopleNum}`,
+        content: `排行榜合约地址 ${searchContent} 人数 ${oneMinutePeopleNum} 推特姓名 ${useNameList.join(
+          '  '
+        )}`,
         username: '人数-警报',
       });
     } else if (cointType == 'PROGRESS') {
       sendMessage({
-        content: `内转外合约地址 ${searchContent} 人数 ${oneMinutePeopleNum}`,
+        content: `内转外合约地址 ${searchContent} 人数 ${oneMinutePeopleNum} 推特姓名 ${useNameList.join(
+          '  '
+        )}`,
         username: '人数-警报',
       });
     }
