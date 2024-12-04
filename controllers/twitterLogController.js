@@ -68,7 +68,8 @@ const checknInMinutesNum = (list, searchContent, cointType, coinItem) => {
     messageNoticTime[searchContent] = new Date();
     if (cointType == 'HOT') {
       sendMessage({
-        content: `排行榜
+        content: `
+        排行榜
         币名字 ${coinItem.symbol}
         合约地址 ${searchContent}
         人数 ${oneMinutePeopleList.size}
@@ -77,7 +78,8 @@ const checknInMinutesNum = (list, searchContent, cointType, coinItem) => {
       });
     } else if (cointType == 'PROGRESS') {
       sendMessage({
-        content: `内转外
+        content: `
+        内转外
         币名字 ${coinItem.symbol}
         合约地址 ${searchContent}
         人数 ${oneMinutePeopleList.size}`,
@@ -105,7 +107,8 @@ const addTwitterLog = async (list, searchContent, cointType, coinItem) => {
       );
       if (cointType == 'HOT') {
         sendMessage({
-          content: `排行榜
+          content: `
+          排行榜
           币名字 ${coinItem.symbol}
           合约地址 ${searchContent}
           用户名 ${list[i].screen_name}
@@ -115,7 +118,8 @@ const addTwitterLog = async (list, searchContent, cointType, coinItem) => {
         });
       } else if (cointType == 'PROGRESS') {
         sendMessage({
-          content: `内转外
+          content: `
+          内转外
           币名字 ${coinItem.symbol}
           合约地址 ${searchContent}
           用户名 ${list[i].screen_name}

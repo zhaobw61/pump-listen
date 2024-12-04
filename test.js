@@ -18,7 +18,8 @@
 import { sendMessage } from './services/discordServices.js';
 
 sendMessage({
-  content: `内转外
+  content: `
+  内转外
   币名字 xxx
   合约地址 xxxx
   用户名 xxx
