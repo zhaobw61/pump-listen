@@ -15,12 +15,6 @@
 //   .catch(function (error) {
 //     console.log(error);
 //   });
-function asd() {
-  for (let i = 0; i < 10; i++) {
-    if (i == 4) {
-      return;
-    }
-    console.log(i);
-  }
-}
-asd();
+let asd = {};
+asd[111] = 111;
+console.log(asd);

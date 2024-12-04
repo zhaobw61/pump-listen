@@ -15,6 +15,8 @@ import {
 
 import { sendMessage } from '../services/discordServices.js';
 
+let messageNoticTime = {};
+
 // 查询分数
 const findScore = async (userscreenName) => {
   let findRes = await findScoreService(userscreenName);
@@ -48,28 +50,30 @@ function getUtcTimeDifferenceInMinutes(now, previousUtcTime) {
 // 检查一分钟内发推数量
 const checknInMinutesNum = (list, searchContent, cointType) => {
   let oneMinutePeopleNum = 0;
-  let useNameList = [];
   const now = new Date(); // 获取当前时间
+  if (messageNoticTime[searchContent]) {
+    if (
+      getUtcTimeDifferenceInMinutes(now, messageNoticTime[searchContent]) < 1
+    ) {
+      return;
+    }
+  }
   for (let i = 0; i < list.length; i++) {
     if (getUtcTimeDifferenceInMinutes(now, list[i].created_at) > 1) {
       break;
     }
     oneMinutePeopleNum++;
-    useNameList.push(list[i].screen_name);
   }
   if (oneMinutePeopleNum >= 5) {
+    messageNoticTime[searchContent] = new Date();
     if (cointType == 'HOT') {
       sendMessage({
-        content: `排行榜合约地址 ${searchContent} 人数 ${oneMinutePeopleNum} 推特姓名 ${useNameList.join(
-          '  '
-        )}`,
+        content: `排行榜合约地址 ${searchContent} 人数 ${oneMinutePeopleNum}`,
         username: '人数-警报',
       });
     } else if (cointType == 'PROGRESS') {
       sendMessage({
-        content: `内转外合约地址 ${searchContent} 人数 ${oneMinutePeopleNum} 推特姓名 ${useNameList.join(
-          '  '
-        )}`,
+        content: `内转外合约地址 ${searchContent} 人数 ${oneMinutePeopleNum}}`,
         username: '人数-警报',
       });
     }
