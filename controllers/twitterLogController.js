@@ -73,6 +73,7 @@ const checknInMinutesNum = (list, searchContent, cointType, coinItem) => {
         币名字 ${coinItem.symbol}
         合约地址 ${searchContent}
         人数 ${oneMinutePeopleList.size}
+        gmgn购买链接 https://gmgn.ai/sol/token/bQVth3du_${searchContent}
       `,
         username: '人数-警报',
       });
@@ -82,7 +83,8 @@ const checknInMinutesNum = (list, searchContent, cointType, coinItem) => {
         内转外
         币名字 ${coinItem.symbol}
         合约地址 ${searchContent}
-        人数 ${oneMinutePeopleList.size}`,
+        人数 ${oneMinutePeopleList.size}
+        gmgn购买链接 https://gmgn.ai/sol/token/bQVth3du_${searchContent}`,
         username: '人数-警报',
       });
     }
@@ -113,7 +115,9 @@ const addTwitterLog = async (list, searchContent, cointType, coinItem) => {
           合约地址 ${searchContent}
           用户名 ${list[i].screen_name}
           推特分数 ${twitterScore}
-          推特创建时间 ${createdAtTime}`,
+          推特创建时间 ${createdAtTime}
+          gmgn购买链接 https://gmgn.ai/sol/token/bQVth3du_${searchContent}
+          `,
           username: '排行榜-警报',
         });
       } else if (cointType == 'PROGRESS') {
@@ -125,6 +129,7 @@ const addTwitterLog = async (list, searchContent, cointType, coinItem) => {
           用户名 ${list[i].screen_name}
           推特分数 ${twitterScore}
           推特创建时间 ${createdAtTime}
+          gmgn购买链接 https://gmgn.ai/sol/token/bQVth3du_${searchContent}
           `,
           username: '内转外-警报',
         });
