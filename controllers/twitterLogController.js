@@ -74,6 +74,7 @@ const checknInMinutesNum = (list, searchContent, cointType, coinItem) => {
         合约地址 ${searchContent}
         人数 ${oneMinutePeopleList.size}
         gmgn购买链接 https://gmgn.ai/sol/token/bQVth3du_${searchContent}
+        推特最新搜索链接 https://x.com/search?q=${searchContent}&src=typed_query&f=live
       `,
         username: '人数-警报',
       });
@@ -84,7 +85,9 @@ const checknInMinutesNum = (list, searchContent, cointType, coinItem) => {
         币名字 ${coinItem.symbol}
         合约地址 ${searchContent}
         人数 ${oneMinutePeopleList.size}
-        gmgn购买链接 https://gmgn.ai/sol/token/bQVth3du_${searchContent}`,
+        gmgn购买链接 https://gmgn.ai/sol/token/bQVth3du_${searchContent}
+        推特最新搜索链接 https://x.com/search?q=${searchContent}&src=typed_query&f=live
+        `,
         username: '人数-警报',
       });
     }
@@ -117,6 +120,7 @@ const addTwitterLog = async (list, searchContent, cointType, coinItem) => {
           推特分数 ${twitterScore}
           推特创建时间 ${createdAtTime}
           gmgn购买链接 https://gmgn.ai/sol/token/bQVth3du_${searchContent}
+          推特最新搜索链接 https://x.com/search?q=${searchContent}&src=typed_query&f=live
           `,
           username: '排行榜-警报',
         });
@@ -130,6 +134,7 @@ const addTwitterLog = async (list, searchContent, cointType, coinItem) => {
           推特分数 ${twitterScore}
           推特创建时间 ${createdAtTime}
           gmgn购买链接 https://gmgn.ai/sol/token/bQVth3du_${searchContent}
+          推特最新搜索链接 https://x.com/search?q=${searchContent}&src=typed_query&f=live
           `,
           username: '内转外-警报',
         });
