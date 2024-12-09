@@ -97,7 +97,12 @@ const checknInMinutesNum = (list, searchContent, cointType, coinItem) => {
 // 添加新的推特记录
 const addTwitterLog = async (list, searchContent, cointType, coinItem) => {
   checknInMinutesNum(list, searchContent, cointType, coinItem);
+  const now = new Date(); // 获取当前时间
   for (let i = 0; i < list.length; i++) {
+    // 时间不能超过2分钟
+    if (getUtcTimeDifferenceInMinutes(now, list[i].created_at) > 2) {
+      break;
+    }
     const findRes = await filterTwitterLogService({
       tweet_id: list[i].tweet_id,
     });
@@ -105,7 +110,8 @@ const addTwitterLog = async (list, searchContent, cointType, coinItem) => {
       break;
     }
     let twitterScore = await findScore(list[i].screen_name);
-    if (twitterScore == false) break;
+    if (twitterScore == false) continue;
+
     if (twitterScore > 500) {
       const createdAtTime = moment(list[i].created_at).format(
         'YYYY-MM-DD HH:mm:ss'
