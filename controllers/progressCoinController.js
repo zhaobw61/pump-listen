@@ -12,15 +12,19 @@ async function getProgressCoinAddressList() {
   if (list && list.length) {
     for (let i = 0; i < list.length; i++) {
       let item = list[i];
-      // 即将打满
-      if (item.progress == '1') {
-        console.log('tem.address');
-        addProgressCoinService({
-          address: item.address,
-          symbol: item.symbol,
-          creatTime: new Date().getTime(),
-        });
-      }
+      addProgressCoinService({
+        address: item.address,
+        symbol: item.symbol,
+        creatTime: new Date().getTime(),
+      });
+      // // 即将打满
+      // if (item.progress == '1') {
+      //   addProgressCoinService({
+      //     address: item.address,
+      //     symbol: item.symbol,
+      //     creatTime: new Date().getTime(),
+      //   });
+      // }
     }
   }
 }
@@ -35,7 +39,7 @@ const deleteOverduProgressCoin = async () => {
     const pastTime = coinlist[i].creatTime; // 示例：过去时间的时间戳
 
     // 判断时间是否超过 8 分钟
-    const eightMinutesInMs = 8 * 60 * 1000; // 8 分钟转换为毫秒
+    const eightMinutesInMs = 20 * 60 * 1000; // 8 分钟转换为毫秒
     if (now - pastTime > eightMinutesInMs) {
       delProgressCoinService({
         address: coinlist[i].address,
