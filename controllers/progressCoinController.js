@@ -14,6 +14,7 @@ async function getProgressCoinAddressList() {
       let item = list[i];
       // 即将打满
       if (item.progress == '1') {
+        console.log('tem.address');
         addProgressCoinService({
           address: item.address,
           symbol: item.symbol,
