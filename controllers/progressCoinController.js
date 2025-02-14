@@ -58,4 +58,4 @@ export const startProgressCoinListen = () => {
   }, listenPumpTime);
 };
 
-console.log('开始gmgn监听热门代币', process.env.NODE_ENV);
+console.log('开始gmg监听即将打满代币', process.env.NODE_ENV);
