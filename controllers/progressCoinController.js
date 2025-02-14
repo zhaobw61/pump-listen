@@ -49,7 +49,7 @@ const deleteOverduProgressCoin = async () => {
 };
 
 let clearProgressCoinInter;
-let listenPumpTime = 1000 * 10;
+let listenPumpTime = 1000 * 3;
 export const startProgressCoinListen = () => {
   if (clearProgressCoinInter) clearInterval(clearProgressCoinInter);
   clearProgressCoinInter = setInterval(() => {
