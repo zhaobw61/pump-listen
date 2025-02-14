@@ -5,6 +5,7 @@ import {
   apiDeletePair,
   apiGetHotCoinList,
   apiGetProgressCoinList,
+  apiGetOpenedCoinList,
 } from '../controllers/pairController.js';
 
 var app = express.Router();
@@ -23,5 +24,8 @@ app.get('/hotCoinlist', apiGetHotCoinList);
 
 // 获取即将打满代币
 app.get('/progressCoinList', apiGetProgressCoinList);
+
+// 获取已开盘代币
+app.get('/openedCoinList', apiGetOpenedCoinList);
 
 export default app;

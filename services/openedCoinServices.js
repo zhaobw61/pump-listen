@@ -1,5 +1,5 @@
 import opendedCoin from '../models/opendedCoinModels.js';
-import { clearTwitterLogService } from '../services/lastTwitterLogService.js';
+import { clearTwitterLogService } from './lastTwitterLogService.js';
 // 添加新的热门币种
 export const addOpenedCoinService = async (params) => {
   const scoreRes = await opendedCoin.findOne({

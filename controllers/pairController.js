@@ -6,6 +6,7 @@ import {
 import { clearTwitterLogService } from '../services/lastTwitterLogService.js';
 import { getAllHotCoinService } from '../services/hotCoinServices.js';
 import { getAllProgressCoinService } from '../services/progressCoinServices.js';
+import { getAllOpenedCoinService } from '../services/openedCoinServices.js';
 
 export const apiGetPairList = async (req, res) => {
   const { pageIndex = 1, pageSize = 10 } = req.query;
@@ -38,3 +39,8 @@ export const apiGetProgressCoinList = async (req, res) => {
   const data = await getAllProgressCoinService();
   res.status(200).json({ success: true, data });
 };
+
+export const apiGetOpenedCoinList = async (req, res) => {
+  const data = await getAllOpenedCoinService();
+  res.status(200).json({ success: true, data });
+}

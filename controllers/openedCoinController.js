@@ -3,7 +3,7 @@ import { getOpenedCoinListService } from '../services/gmgnServices.js';
 import {
     addOpenedCoinService,
     delOpenedCoinService,
-} from '../services/opendedCoinServices.js';
+} from '../services/openedCoinServices.js';
 import openedCoin from '../models/opendedCoinModels.js';
 
 async function getOpenedCoinAddressList() {
