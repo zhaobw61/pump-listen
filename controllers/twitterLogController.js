@@ -175,7 +175,7 @@ const listenOpenedCoin = async () => {
       console.log('item', item);
     }
 
-    if (twitterSearchList.tweets) {
+    if (twitterSearchList?.tweets) {
       addTwitterLog(twitterSearchList.tweets, item.address, 'OPEND', item);
     }
     index++;
