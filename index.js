@@ -18,6 +18,6 @@ app.listen(port, () => {
 });
 
 // startGmgnListen(); // 监听已打满币种
-// startProgressCoinListen(); // 监听即将打满币种 有就推送
-// startOpenedCoinListen(); // 监听已开盘币种
+startProgressCoinListen(); // 监听即将打满币种 有就推送
+startOpenedCoinListen(); // 监听已开盘币种
 startListenTwitterLog(); // 监听推特

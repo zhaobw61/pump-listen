@@ -43,7 +43,7 @@ const checknInMinutesNum = (list, searchContent, cointType, coinItem) => {
   }
   if (oneMinutePeopleList.size >= 5) {
     messageNoticTime[searchContent] = new Date();
-    if (cointType == 'HOT') {
+    if (cointType == 'OPEND') {
       sendMessage({
         content: `
         排行榜
@@ -89,7 +89,7 @@ const addTwitterLog = async (list, searchContent, cointType, coinItem) => {
     const createdAtTime = moment(list[i].created_at).format(
       'YYYY-MM-DD HH:mm:ss'
     );
-    if (cointType == 'HOT') {
+    if (cointType == 'OPEND') {
       sendMessage({
         content: `
         排行榜
@@ -128,33 +128,6 @@ const addTwitterLog = async (list, searchContent, cointType, coinItem) => {
   }
 };
 
-// 监听热门币种
-const listenHotCoin = async () => {
-  let index = 0;
-  setInterval(async () => {
-    console.log('hot heart', new Date());
-    const hotCoinList = await getAllHotCoinService();
-    if (hotCoinList.length == 0) return;
-    if (index > hotCoinList.length - 1) {
-      index = 0;
-    }
-    let item = hotCoinList[index];
-    let twitterSearchList;
-    try {
-      twitterSearchList = await getLastSearchServices(item.address);
-    } catch (error) {
-      console.log('hotCoinList', hotCoinList);
-      console.log('index', index);
-      console.log('item', item);
-    }
-
-    if (twitterSearchList.tweets) {
-      addTwitterLog(twitterSearchList.tweets, item.address, 'HOT', item);
-    }
-    index++;
-  }, 1000);
-};
-
 // 监听即将打满币种
 const listenProgressCoin = async () => {
   let index = 0;
@@ -175,7 +148,7 @@ const listenProgressCoin = async () => {
       console.log('item', item);
     }
 
-    if (twitterSearchList.tweets) {
+    if (twitterSearchList?.tweets) {
       addTwitterLog(twitterSearchList.tweets, item.address, 'PROGRESS', item);
     }
     index++;
@@ -203,15 +176,17 @@ const listenOpenedCoin = async () => {
     }
 
     if (twitterSearchList.tweets) {
-      addTwitterLog(twitterSearchList.tweets, item.address, 'HOT', item);
+      addTwitterLog(twitterSearchList.tweets, item.address, 'OPEND', item);
     }
     index++;
   }, 1000);
 };
 
+// 1.检查一分钟内发推数量
+//
+
 // 更新热门推特记录
 export const startListenTwitterLog = async () => {
-  // listenHotCoin(); // 监听热门币种
   listenProgressCoin(); // 监听即将打满币种
   listenOpenedCoin(); // 监听已开盘币种
 };
