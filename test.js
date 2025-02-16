@@ -1,6 +1,6 @@
-for (let i = 0; i < 10; i++) {
-  if (i % 2 == 0) {
-    continue;
-  }
-  console.log(i);
-}
+import { sendMessage } from './services/discordServices.js';
+const data = {
+  content: '你好啊，这么快就成功了',
+  username: '警报狗', // 可选，显示的用户名
+};
+sendMessage(data);

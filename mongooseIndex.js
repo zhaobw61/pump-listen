@@ -4,7 +4,7 @@ console.log('mongoose', process.env.NODE_ENV);
 const dbName = 'pump-listen';
 let dbUrl = '127.0.0.1';
 if (process.env.NODE_ENV === 'development') {
-  dbUrl = '43.155.83.101';
+  dbUrl = '43.128.63.61';
 } else {
   dbUrl = '127.0.0.1';
 }

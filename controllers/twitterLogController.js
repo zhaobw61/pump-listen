@@ -5,35 +5,12 @@ import {
 } from '../services/lastTwitterLogService.js';
 import { getAllHotCoinService } from '../services/hotCoinServices.js';
 import { getAllProgressCoinService } from '../services/progressCoinServices.js';
+import { getAllOpenedCoinService } from '../services/openedCoinServices.js';
 import { getLastSearchServices } from '../services/twitterApiServices.js';
-
-import {
-  checkScoreService,
-  addScoreService,
-  findScoreService,
-} from '../services/twitterScoreServices.js';
 
 import { sendMessage } from '../services/discordServices.js';
 
 let messageNoticTime = {};
-
-// 查询分数
-const findScore = async (userscreenName) => {
-  let findRes = await findScoreService(userscreenName);
-  if (findRes === null) {
-    const scoreInfo = await checkScoreService(userscreenName);
-    if (scoreInfo === false) {
-      return false;
-    }
-    await addScoreService({
-      twitterName: userscreenName,
-      twitterScore: scoreInfo.score,
-    });
-    return scoreInfo.score;
-  } else {
-    return findRes.twitterScore;
-  }
-};
 
 function getUtcTimeDifferenceInMinutes(now, previousUtcTime) {
   const previous = new Date(previousUtcTime); // 将之前的 UTC 时间字符串解析为 Date 对象
@@ -109,42 +86,35 @@ const addTwitterLog = async (list, searchContent, cointType, coinItem) => {
     if (findRes) {
       break;
     }
-    let twitterScore = await findScore(list[i].screen_name);
-    if (twitterScore == false) continue;
-
-    if (twitterScore > 500) {
-      const createdAtTime = moment(list[i].created_at).format(
-        'YYYY-MM-DD HH:mm:ss'
-      );
-      if (cointType == 'HOT') {
-        sendMessage({
-          content: `
-          排行榜
-          币名字 ${coinItem.symbol}
-          合约地址 ${searchContent}
-          用户名 ${list[i].screen_name}
-          推特分数 ${twitterScore}
-          推特创建时间 ${createdAtTime}
-          gmgn购买链接 https://gmgn.ai/sol/token/bQVth3du_${searchContent}
-          推特最新搜索链接 https://x.com/search?q=${searchContent}&src=typed_query&f=live
-          `,
-          username: '排行榜-警报',
-        });
-      } else if (cointType == 'PROGRESS') {
-        sendMessage({
-          content: `
-          内转外
-          币名字 ${coinItem.symbol}
-          合约地址 ${searchContent}
-          用户名 ${list[i].screen_name}
-          推特分数 ${twitterScore}
-          推特创建时间 ${createdAtTime}
-          gmgn购买链接 https://gmgn.ai/sol/token/bQVth3du_${searchContent}
-          推特最新搜索链接 https://x.com/search?q=${searchContent}&src=typed_query&f=live
-          `,
-          username: '内转外-警报',
-        });
-      }
+    const createdAtTime = moment(list[i].created_at).format(
+      'YYYY-MM-DD HH:mm:ss'
+    );
+    if (cointType == 'HOT') {
+      sendMessage({
+        content: `
+        排行榜
+        币名字 ${coinItem.symbol}
+        合约地址 ${searchContent}
+        用户名 ${list[i].screen_name}
+        推特创建时间 ${createdAtTime}
+        gmgn购买链接 https://gmgn.ai/sol/token/bQVth3du_${searchContent}
+        推特最新搜索链接 https://x.com/search?q=${searchContent}&src=typed_query&f=live
+        `,
+        username: '排行榜-警报',
+      });
+    } else if (cointType == 'PROGRESS') {
+      sendMessage({
+        content: `
+        内转外
+        币名字 ${coinItem.symbol}
+        合约地址 ${searchContent}
+        用户名 ${list[i].screen_name}
+        推特创建时间 ${createdAtTime}
+        gmgn购买链接 https://gmgn.ai/sol/token/bQVth3du_${searchContent}
+        推特最新搜索链接 https://x.com/search?q=${searchContent}&src=typed_query&f=live
+        `,
+        username: '内转外-警报',
+      });
     }
     addTwitterLogService({
       address: searchContent,
@@ -153,7 +123,6 @@ const addTwitterLog = async (list, searchContent, cointType, coinItem) => {
       text: list[i].text,
       created_at: list[i].created_at,
       screen_name: list[i].screen_name,
-      twitterScore: twitterScore,
       cointType: cointType,
     });
   }
@@ -213,8 +182,36 @@ const listenProgressCoin = async () => {
   }, 1000);
 };
 
+// 监听已开盘币种
+const listenOpenedCoin = async () => {
+  let index = 0;
+  setInterval(async () => {
+    console.log('opened heart', new Date());
+    const hotCoinList = await getAllHotCoinService();
+    if (hotCoinList.length == 0) return;
+    if (index > hotCoinList.length - 1) {
+      index = 0;
+    }
+    let item = hotCoinList[index];
+    let twitterSearchList;
+    try {
+      twitterSearchList = await getLastSearchServices(item.address);
+    } catch (error) {
+      console.log('hotCoinList', hotCoinList);
+      console.log('index', index);
+      console.log('item', item);
+    }
+
+    if (twitterSearchList.tweets) {
+      addTwitterLog(twitterSearchList.tweets, item.address, 'HOT', item);
+    }
+    index++;
+  }, 1000);
+};
+
 // 更新热门推特记录
 export const startListenTwitterLog = async () => {
-  listenHotCoin(); // 监听热门币种
+  // listenHotCoin(); // 监听热门币种
   listenProgressCoin(); // 监听即将打满币种
+  listenOpenedCoin(); // 监听已开盘币种
 };
