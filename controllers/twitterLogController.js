@@ -53,7 +53,7 @@ const checknInMinutesNum = (list, searchContent, cointType, coinItem) => {
         gmgn购买链接 https://gmgn.ai/sol/token/bQVth3du_${searchContent}
         推特最新搜索链接 https://x.com/search?q=${searchContent}&src=typed_query&f=live
       `,
-        username: '人数-警报',
+        username: '已开盘-一分钟推特数量-警报',
       });
     } else if (cointType == 'PROGRESS') {
       sendMessage({
@@ -65,7 +65,7 @@ const checknInMinutesNum = (list, searchContent, cointType, coinItem) => {
         gmgn购买链接 https://gmgn.ai/sol/token/bQVth3du_${searchContent}
         推特最新搜索链接 https://x.com/search?q=${searchContent}&src=typed_query&f=live
         `,
-        username: '人数-警报',
+        username: '即将开盘-一分钟推特数量-警报',
       });
     }
   }
@@ -92,7 +92,6 @@ const addTwitterLog = async (list, searchContent, cointType, coinItem) => {
     if (cointType == 'OPEND') {
       sendMessage({
         content: `
-        排行榜
         币名字 ${coinItem.symbol}
         合约地址 ${searchContent}
         用户名 ${list[i].screen_name}
@@ -100,7 +99,7 @@ const addTwitterLog = async (list, searchContent, cointType, coinItem) => {
         gmgn购买链接 https://gmgn.ai/sol/token/bQVth3du_${searchContent}
         推特最新搜索链接 https://x.com/search?q=${searchContent}&src=typed_query&f=live
         `,
-        username: '排行榜-警报',
+        username: '已开盘-有新的推特-警报',
       });
     } else if (cointType == 'PROGRESS') {
       sendMessage({
@@ -113,7 +112,7 @@ const addTwitterLog = async (list, searchContent, cointType, coinItem) => {
         gmgn购买链接 https://gmgn.ai/sol/token/bQVth3du_${searchContent}
         推特最新搜索链接 https://x.com/search?q=${searchContent}&src=typed_query&f=live
         `,
-        username: '内转外-警报',
+        username: '即将开盘-有新的推特-警报',
       });
     }
     addTwitterLogService({
