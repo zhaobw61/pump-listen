@@ -181,8 +181,6 @@ const listenOpenedCoin = async () => {
   }, 1000);
 };
 
-// 1.检查一分钟内发推数量
-//
 
 // 更新热门推特记录
 export const startListenTwitterLog = async () => {
