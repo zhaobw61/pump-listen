@@ -31,3 +31,14 @@ export const getAllProgressCoinService = async () => {
   const list = await progressCoin.find();
   return list;
 };
+
+// 给即将开盘的代币添加推特用户信息
+export const addTwitterUserInfoToOpenedCoinService = async (params) => {
+  let res = await progressCoin.updateOne(
+    {
+      address: params.address,
+    },
+    { $set: { ...params } }
+  );
+  return res;
+};

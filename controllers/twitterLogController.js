@@ -4,7 +4,10 @@ import {
   filterTwitterLogService,
 } from '../services/lastTwitterLogService.js';
 import { getAllHotCoinService } from '../services/hotCoinServices.js';
-import { getAllProgressCoinService } from '../services/progressCoinServices.js';
+import {
+  getAllProgressCoinService,
+  addTwitterUserInfoToOpenedCoinService,
+} from '../services/progressCoinServices.js';
 import { getAllOpenedCoinService } from '../services/openedCoinServices.js';
 import { getLastSearchServices } from '../services/twitterApiServices.js';
 
@@ -127,6 +130,20 @@ const addTwitterLog = async (list, searchContent, cointType, coinItem) => {
   }
 };
 
+// 给即将开盘的代币添加推特用户信息
+const addTwitterUserInfoToOpenedCoin = async (list, address) => {
+  let oldestTwitter = list[list.length - 1];
+  addTwitterUserInfoToOpenedCoinService({
+    address: address,
+    screen_name: oldestTwitter.screen_name,
+    account_created_at: oldestTwitter.account_created_at,
+    account_favourites_count: oldestTwitter.account_favourites_count,
+    account_followers_count: oldestTwitter.account_followers_count,
+    account_friends_count: oldestTwitter.account_friends_count,
+    account_media_count: oldestTwitter.account_media_count,
+  });
+};
+
 // 监听即将打满币种
 const listenProgressCoin = async () => {
   let index = 0;
@@ -149,6 +166,9 @@ const listenProgressCoin = async () => {
 
     if (twitterSearchList?.tweets) {
       addTwitterLog(twitterSearchList.tweets, item.address, 'PROGRESS', item);
+    }
+    if (!item.screen_name && twitterSearchList?.tweets) {
+      addTwitterUserInfoToOpenedCoin(twitterSearchList.tweets, item.address);
     }
     index++;
   }, 1000);
@@ -180,7 +200,6 @@ const listenOpenedCoin = async () => {
     index++;
   }, 1000);
 };
-
 
 // 更新热门推特记录
 export const startListenTwitterLog = async () => {

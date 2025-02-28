@@ -28,6 +28,13 @@ export const getLastSearchServices = async (content) => {
               text: legacy.full_text,
               created_at: legacy.created_at,
               screen_name: user_results.result.legacy.screen_name,
+              account_created_at: user_results.result.legacy.created_at,
+              account_favourites_count:
+                user_results.result.legacy.favourites_count,
+              account_followers_count:
+                user_results.result.legacy.followers_count,
+              account_friends_count: user_results.result.legacy.friends_count,
+              account_media_count: user_results.result.legacy.media_count,
             });
           }
         }
