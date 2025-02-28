@@ -13,6 +13,9 @@ const otherString =
   'directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.1.0';
 const replicaSet = 'rs0';
 const port = 27017;
+console.log(
+  `mongodb://${dbUrl}:${port}/${dbName}?${otherString}&replicaSet=${replicaSet}`
+);
 mongoose
   .connect(
     `mongodb://${dbUrl}:${port}/${dbName}?${otherString}&replicaSet=${replicaSet}`,
