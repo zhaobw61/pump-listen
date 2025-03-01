@@ -133,6 +133,19 @@ const addTwitterLog = async (list, searchContent, cointType, coinItem) => {
 // 给即将开盘的代币添加推特用户信息
 const addTwitterUserInfoToOpenedCoin = async (list, address) => {
   let oldestTwitter = list[list.length - 1];
+  let accountCreateDays =
+    (new Date().getTime() -
+      new Date(oldestTwitter.account_created_at).getTime()) /
+    1000 /
+    60 /
+    60 /
+    24;
+  let account_score =
+    accountCreateDays * 0.2 +
+    oldestTwitter.account_favourites_count * 0.1 +
+    oldestTwitter.account_followers_count * 0.3 +
+    oldestTwitter.account_friends_count * 0.2 +
+    oldestTwitter.account_media_count * 0.2;
   addTwitterUserInfoToOpenedCoinService({
     address: address,
     screen_name: oldestTwitter.screen_name,
@@ -141,6 +154,7 @@ const addTwitterUserInfoToOpenedCoin = async (list, address) => {
     account_followers_count: oldestTwitter.account_followers_count,
     account_friends_count: oldestTwitter.account_friends_count,
     account_media_count: oldestTwitter.account_media_count,
+    account_score: account_score,
   });
 };
 
