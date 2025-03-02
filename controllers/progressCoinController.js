@@ -39,7 +39,7 @@ const deleteOverduProgressCoin = async () => {
     const pastTime = coinlist[i].creatTime; // 示例：过去时间的时间戳
 
     // 判断时间是否超过 8 分钟
-    const eightMinutesInMs = 20 * 60 * 1000; // 8 分钟转换为毫秒
+    const eightMinutesInMs = 10 * 60 * 1000; // 8 分钟转换为毫秒 // 之前是 2分钟
     if (now - pastTime > eightMinutesInMs) {
       delProgressCoinService({
         address: coinlist[i].address,
