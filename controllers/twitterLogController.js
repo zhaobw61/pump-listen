@@ -215,8 +215,36 @@ const listenOpenedCoin = async () => {
   }, 1000);
 };
 
+// 给即将打满的代币添加推特的信息
+const addTwitterAccountInofToProgressCoin = () => {
+  let index = 0;
+  setInterval(async () => {
+    console.log('Progress heart', new Date());
+    const progressCoinList = await getAllProgressCoinService();
+    if (progressCoinList.length == 0) return;
+    if (index > progressCoinList.length - 1) {
+      index = 0;
+    }
+    let item = progressCoinList[index];
+    let twitterSearchList;
+    if (item.screen_name) return;
+    try {
+      twitterSearchList = await getLastSearchServices(item.address);
+    } catch (error) {
+      console.log('progressCoinList', progressCoinList);
+      console.log('index', index);
+      console.log('item', item);
+    }
+    if (!item.screen_name && twitterSearchList?.tweets) {
+      addTwitterUserInfoToOpenedCoin(twitterSearchList.tweets, item.address);
+    }
+    index++;
+  }, 1000);
+};
+
 // 更新热门推特记录
 export const startListenTwitterLog = async () => {
-  listenProgressCoin(); // 监听即将打满币种
-  listenOpenedCoin(); // 监听已开盘币种
+  // listenProgressCoin(); // 监听即将打满币种
+  // listenOpenedCoin(); // 监听已开盘币种
+  addTwitterAccountInofToProgressCoin(); // 给即将打满的代币添加推特的信息
 };
