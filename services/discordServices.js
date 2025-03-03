@@ -1,7 +1,7 @@
 import axiosInstance from './request.js';
 
 const webhookUrl =
-  'https://discord.com/api/webhooks/1341812704788353104/z5XRPxIZEVIzjSrw1NbQ0Eq5R0-dfmuZvSYeNScya59BSRpUrz4Q-AtORtnhNRbXwINK'; // 替换为你的 Webhook URL
+  'https://discord.com/api/webhooks/1346014879055609899/GA6Z97S9FTuze5eDcElcV0qjHCjlJWFzHmqBz1kyccJlPEVuHH8tqj0Ga6GsJWJJl4pv'; // 替换为你的 Webhook URL
 
 export const sendMessage = async (content) => {
   const res = axiosInstance.post(webhookUrl, content).catch((error) => {
