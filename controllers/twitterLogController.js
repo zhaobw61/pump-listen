@@ -132,6 +132,7 @@ const addTwitterLog = async (list, searchContent, cointType, coinItem) => {
 
 // 给即将开盘的代币添加推特用户信息
 const addTwitterUserInfoToOpenedCoin = async (list, address) => {
+  if (list.length == 0) return;
   let oldestTwitter = list[list.length - 1];
   let accountCreateDays =
     (new Date().getTime() -
