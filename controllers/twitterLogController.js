@@ -244,7 +244,7 @@ const addTwitterAccountInofToProgressCoin = () => {
 
 // 更新热门推特记录
 export const startListenTwitterLog = async () => {
-  // listenProgressCoin(); // 监听即将打满币种
-  // listenOpenedCoin(); // 监听已开盘币种
+  listenProgressCoin(); // 监听即将打满币种
+  listenOpenedCoin(); // 监听已开盘币种
   addTwitterAccountInofToProgressCoin(); // 给即将打满的代币添加推特的信息
 };
